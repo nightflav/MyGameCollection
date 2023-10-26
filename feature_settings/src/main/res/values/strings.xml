@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dismiss_dialog_button_text">Save settings</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_loading">Loading settings...</string>
+    <string name="select_theme">Select theme</string>
+    <string name="use_dark_theme">Use Dark Theme</string>
+    <string name="use_dynamic_color">Use Dynamic Color</string>
+</resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="jbr-17" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/common" />
+            <option value="$PROJECT_DIR$/core/commonui" />
+            <option value="$PROJECT_DIR$/core/data" />
+            <option value="$PROJECT_DIR$/core/database" />
+            <option value="$PROJECT_DIR$/core/datastore" />
+            <option value="$PROJECT_DIR$/core/network" />
+            <option value="$PROJECT_DIR$/feature_game_details" />
+            <option value="$PROJECT_DIR$/feature_game_details/api" />
+            <option value="$PROJECT_DIR$/feature_game_details/data" />
+            <option value="$PROJECT_DIR$/feature_game_details/domain" />
+            <option value="$PROJECT_DIR$/feature_game_details/presentation" />
+            <option value="$PROJECT_DIR$/feature_home" />
+            <option value="$PROJECT_DIR$/feature_home/api" />
+            <option value="$PROJECT_DIR$/feature_home/data" />
+            <option value="$PROJECT_DIR$/feature_home/domain" />
+            <option value="$PROJECT_DIR$/feature_home/presentation" />
+            <option value="$PROJECT_DIR$/feature_settings" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
