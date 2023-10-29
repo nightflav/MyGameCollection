@@ -31,5 +31,5 @@ So i decided to make my own because I able to do it and want it. So here it is!
 
 - Implement all others features
 - Make all feature entries injectable in destinations map
-- Implement some more custom composables so that it will looks exactly like I want it look
+- Implement some more custom composables so that it will looks exactly like I want it to look
 - ...
