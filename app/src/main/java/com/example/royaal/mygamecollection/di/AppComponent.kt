@@ -3,15 +3,18 @@ package com.example.royaal.mygamecollection.di
 import android.app.Application
 import androidx.datastore.core.DataStore
 import com.example.royaal.UserSettings
-import com.example.royaal.api.GameDetailsRepoProvider
+import com.example.royaal.api.GameDetailsRepositoryProvider
 import com.example.royaal.api.GamesRepositoryProvider
+import com.example.royaal.api.LocalGamesRepositoryProvider
+import com.example.royaal.commonui.Destinations
 import com.example.royaal.core.database.di.DatabaseModule
 import com.example.royaal.core.database.di.DatabaseProvider
 import com.example.royaal.core.network.di.NetworkModule
 import com.example.royaal.core.network.di.NetworkProvider
 import com.example.royaal.data.DataModule
 import com.example.royaal.data.DataProvider
-import com.example.royaal.data.di.GameDetailRepoModule
+import com.example.royaal.data.di.GameDetailsRepositoryModule
+import com.example.royaal.data.di.LocalGamesRepositoryModule
 import com.example.royaal.feature_home.di.GamesRepoModule
 import com.example.royaal.feature_settings.SettingsViewModel
 import com.example.royaal.mygamecollection.MainActivityViewModel
@@ -23,17 +26,20 @@ import javax.inject.Singleton
     modules = [
         DatabaseModule::class,
         NetworkModule::class,
-        GamesRepoModule::class,
         DataModule::class,
-        GameDetailRepoModule::class
+        GamesRepoModule::class,
+        GameDetailsRepositoryModule::class,
+        LocalGamesRepositoryModule::class,
+        NavigationModule::class
     ]
 )]
 interface ApplicationComponent :
     DataProvider,
     DatabaseProvider,
     NetworkProvider,
-    GameDetailsRepoProvider,
-    GamesRepositoryProvider {
+    GameDetailsRepositoryProvider,
+    GamesRepositoryProvider,
+    LocalGamesRepositoryProvider {
     @Component.Factory
     interface Factory {
         fun create(
@@ -48,5 +54,5 @@ interface ApplicationComponent :
 
     val settingsViewModelFactory: SettingsViewModel.Factory
 
-
+    val destinations: Destinations
 }

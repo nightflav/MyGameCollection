@@ -6,4 +6,5 @@
     <string name="select_theme">Select theme</string>
     <string name="use_dark_theme">Use Dark Theme</string>
     <string name="use_dynamic_color">Use Dynamic Color</string>
+    <string name="clear_cache">Clear useless cache</string>
 </resources>

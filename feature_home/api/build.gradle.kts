@@ -1,11 +1,12 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "com.example.royaal.api"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 26

@@ -1,7 +1,8 @@
 package com.example.royaal.presentation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import com.example.royaal.api.GameDetailsEntry
@@ -13,8 +14,15 @@ import com.example.royaal.core.database.di.LocalDatabaseProvider
 import com.example.royaal.core.network.di.LocalNetworkProvider
 import com.example.royaal.presentation.di.DaggerDetailsComponent
 import com.example.royaal.presentation.ui.DetailsRoute
+import javax.inject.Inject
 
-class GameDetailsEntryImpl : GameDetailsEntry() {
+class GameDetailsEntryImpl @Inject constructor() : GameDetailsEntry() {
+    override val selectedIcon: ImageVector?
+        get() = null
+    override val unselectedIcon: ImageVector?
+        get() = null
+    override val name: String
+        get() = "details"
 
     @Composable
     override fun Screen(
@@ -28,17 +36,22 @@ class GameDetailsEntryImpl : GameDetailsEntry() {
         val gameDetailsComponent = DaggerDetailsComponent.factory().create(
             databaseProvider = databaseProvider,
             networkProvider = networkProvider,
-            gameDetailRepoProvider = gameDetailRepoProvider,
+            gameDetailsRepoProvider = gameDetailRepoProvider,
         )
         val viewModel = DaggerViewModelProvider.daggerViewModel {
             gameDetailsComponent.detailsViewModel
         }
-        viewModel.eventQueue.trySend(
-            DetailsViewModel.DetailsScreenEvents.LoadScreen(
-                backStackEntry.arguments?.getInt("id")!!
+        LaunchedEffect(key1 = gameDetailRepoProvider) {
+            viewModel.sendEvent(
+                DetailsViewModel.DetailsScreenEvents.LoadScreen(
+                    backStackEntry.arguments?.getInt("id")!!
+                )
             )
-        )
-        Log.d("TAGTAG", "RECOMPOSE and id = ${backStackEntry.arguments?.getInt("id")}")
+            viewModel.sendEvent(
+                DetailsViewModel.DetailsScreenEvents.LoadSimilarGames
+            )
+        }
+
         DetailsRoute(
             viewModel = viewModel,
             onBackPressed = {
@@ -54,5 +67,4 @@ class GameDetailsEntryImpl : GameDetailsEntry() {
             },
         )
     }
-
 }

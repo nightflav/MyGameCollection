@@ -4,4 +4,4 @@ import javax.inject.Scope
 
 @Scope
 @Retention(AnnotationRetention.RUNTIME)
-annotation class PerFeature()
+annotation class PerFeature

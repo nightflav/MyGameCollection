@@ -86,4 +86,8 @@ dependencies {
     implementation(project(":feature_game_details:api"))
     implementation(project(":feature_game_details:data"))
     implementation(project(":feature_game_details:presentation"))
+    implementation(project(":feature_favourite:domain"))
+    implementation(project(":feature_favourite:api"))
+    implementation(project(":feature_favourite:data"))
+    implementation(project(":feature_favourite:presentation"))
 }

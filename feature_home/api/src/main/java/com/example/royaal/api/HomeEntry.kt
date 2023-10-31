@@ -3,7 +3,7 @@ package com.example.royaal.api
 import androidx.navigation.NamedNavArgument
 import com.example.royaal.commonui.FeatureEntry
 
-abstract class HomeEntry() : FeatureEntry {
+abstract class HomeEntry : FeatureEntry {
 
     final override val featureRoute: String
         get() = "home_route"

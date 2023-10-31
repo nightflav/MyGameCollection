@@ -13,18 +13,12 @@ import com.example.royaal.domain.usecases.RemoveGameFromCompletedUseCase
 import com.example.royaal.domain.usecases.RemoveGameFromFavouriteUseCase
 import com.example.royaal.domain.usecases.RemoveGameFromWishListUseCase
 import com.example.royaal.presentation.DetailsScreenState.Companion.game
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@OptIn(FlowPreview::class)
-class DetailsViewModel @Inject constructor(
+internal class DetailsViewModel @Inject constructor(
     private val loadScreenUseCase: LoadScreenUseCase,
     private val loadSimilarGamesUseCase: LoadSimilarGamesUseCase,
     private val addToCompletedUseCase: AddToCompletedUseCase,
@@ -38,23 +32,6 @@ class DetailsViewModel @Inject constructor(
     private val _state = MutableStateFlow(DetailsScreenState.EmptyState)
     val state = _state.asStateFlow()
     private val currState get() = state.value
-    val eventQueue = Channel<DetailsScreenEvents>()
-
-    init {
-        Log.d("TAGTAG", "init details vm")
-        subscribeToEvents()
-    }
-
-    private fun subscribeToEvents() {
-        viewModelScope.launch {
-            eventQueue.consumeAsFlow()
-                .distinctUntilChanged()
-                .debounce(200L)
-                .collect {
-                    processEvent(it)
-                }
-        }
-    }
 
     sealed interface DetailsScreenEvents {
         data class LoadScreen(val id: Int) : DetailsScreenEvents
@@ -65,30 +42,32 @@ class DetailsViewModel @Inject constructor(
         data object LoadSimilarGames : DetailsScreenEvents
     }
 
-    private suspend fun processEvent(e: DetailsScreenEvents) {
-        when (e) {
-            is DetailsScreenEvents.OpenScreenshot -> {
+    fun sendEvent(e: DetailsScreenEvents) {
+        viewModelScope.launch {
+            when (e) {
+                is DetailsScreenEvents.OpenScreenshot -> {
 
-            }
+                }
 
-            DetailsScreenEvents.AddToCompleted -> {
-                addToCompleted()
-            }
+                DetailsScreenEvents.AddToCompleted -> {
+                    addToCompleted()
+                }
 
-            DetailsScreenEvents.AddToFavourite -> {
-                addToFavourite()
-            }
+                DetailsScreenEvents.AddToFavourite -> {
+                    addToFavourite()
+                }
 
-            DetailsScreenEvents.AddToWishlist -> {
-                addToWishlist()
-            }
+                DetailsScreenEvents.AddToWishlist -> {
+                    addToWishlist()
+                }
 
-            is DetailsScreenEvents.LoadScreen -> {
-                loadScreen(e.id)
-            }
+                is DetailsScreenEvents.LoadScreen -> {
+                    loadScreen(e.id)
+                }
 
-            DetailsScreenEvents.LoadSimilarGames -> {
-                loadSimilarGames()
+                DetailsScreenEvents.LoadSimilarGames -> {
+                    loadSimilarGames()
+                }
             }
         }
     }
@@ -97,9 +76,7 @@ class DetailsViewModel @Inject constructor(
         if (currState.isInWishList) {
             removeGameFromWishListUseCase(currState.gameId)
         } else {
-            addToWishListUseCase(
-                currState.game
-            )
+            addToWishListUseCase(currState.game)
         }
     }
 
@@ -107,19 +84,16 @@ class DetailsViewModel @Inject constructor(
         if (currState.isCompleted) {
             removeGameFromCompletedUseCase(currState.gameId)
         } else {
-            addToCompletedUseCase(
-                currState.game
-            )
+            addToCompletedUseCase(currState.game)
         }
     }
 
     private suspend fun addToFavourite() {
+        Log.d("TAGTAG", "addToFav $currState")
         if (currState.isFavourite) {
             removeGameFromFavouriteUseCase(currState.gameId)
         } else {
-            addToFavouriteUseCase(
-                currState.game
-            )
+            addToFavouriteUseCase(currState.game)
         }
     }
 
@@ -128,20 +102,24 @@ class DetailsViewModel @Inject constructor(
             it.fetchResult(
                 onLoading = {
                     _state.emit(
-                        currState.loading
+                        currState.copy(
+                            similarGameLoading = true
+                        )
                     )
                 },
                 onError = { error ->
                     _state.emit(
                         currState.copy(
-                            error = error
+                            error = error,
+                            similarGameLoading = false
                         )
                     )
                 },
                 onSuccess = { similarGames ->
                     _state.emit(
                         currState.copy(
-                            similarGames = similarGames
+                            similarGames = similarGames,
+                            similarGameLoading = false
                         )
                     )
                 }
@@ -151,6 +129,7 @@ class DetailsViewModel @Inject constructor(
 
     private suspend fun loadScreen(id: Int) {
         loadScreenUseCase(id).collect {
+            Log.d("TAGTAG", "got $it")
             it.fetchResult(
                 onLoading = {
                     _state.emit(
@@ -176,7 +155,10 @@ class DetailsViewModel @Inject constructor(
                             screenshots = game.screenshots,
                             platforms = game.platforms,
                             isLoading = false,
-                            error = null
+                            error = null,
+                            isCompleted = game.isCompleted,
+                            isFavourite = game.isFavourite,
+                            isInWishList = game.isInWishlist
                         )
                     )
                 }

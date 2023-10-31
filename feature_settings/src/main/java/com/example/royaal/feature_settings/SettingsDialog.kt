@@ -12,12 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -30,7 +30,6 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.royaal.core.common.model.DarkThemeConfiguration
 import com.example.royaal.core.common.model.ThemeBrandConf
-import kotlinx.coroutines.launch
 
 @Composable
 fun SettingsDialog(
@@ -38,36 +37,36 @@ fun SettingsDialog(
     onDismiss: () -> Unit
 ) {
     val state by viewModel.screenState.collectAsStateWithLifecycle()
-    val settingsScope = rememberCoroutineScope()
     SettingsDialog(
         settingsUiState = state,
         onDismiss = onDismiss,
         onChangeThemeBrand = {
-            settingsScope.launch {
-                viewModel.eventQueue.send(
-                    SettingsViewModel.SettingsEvents.UpdateThemeBrand(
-                        it
-                    )
+            viewModel.sendEvent(
+                SettingsViewModel.SettingsEvents.UpdateThemeBrand(
+                    it
                 )
-            }
+            )
         },
         onChangeDynamicColorPreference = {
-            settingsScope.launch {
-                viewModel.eventQueue.send(
-                    SettingsViewModel.SettingsEvents.UpdateUseDynamicColor(
-                        it
-                    )
+            viewModel.sendEvent(
+                SettingsViewModel.SettingsEvents.UpdateUseDynamicColor(
+                    it
                 )
-            }
+            )
+
         },
         onChangeDarkThemeConfig = {
-            settingsScope.launch {
-                viewModel.eventQueue.send(
-                    SettingsViewModel.SettingsEvents.UpdateDarkThemeConfig(
-                        it
-                    )
+            viewModel.sendEvent(
+                SettingsViewModel.SettingsEvents.UpdateDarkThemeConfig(
+                    it
                 )
-            }
+            )
+
+        },
+        onClearCache = {
+            viewModel.sendEvent(
+                SettingsViewModel.SettingsEvents.ClearUnusedCache
+            )
         }
     )
 }
@@ -79,6 +78,7 @@ private fun SettingsDialog(
     onChangeThemeBrand: (themeBrand: ThemeBrandConf) -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfiguration) -> Unit,
+    onClearCache: () -> Unit
 ) {
     val conf = LocalConfiguration.current
     AlertDialog(
@@ -105,7 +105,8 @@ private fun SettingsDialog(
                     state = settingsUiState.state,
                     onChangeDarkThemeConfig = onChangeDarkThemeConfig,
                     onChangeDynamicColorPreference = onChangeDynamicColorPreference,
-                    onChangeThemeBrand = onChangeThemeBrand
+                    onChangeThemeBrand = onChangeThemeBrand,
+                    onClearCache = onClearCache
                 )
             }
         },
@@ -129,6 +130,7 @@ private fun SettingsDialogContent(
     onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfiguration) -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeThemeBrand: (themeBrand: ThemeBrandConf) -> Unit,
+    onClearCache: () -> Unit
 ) {
     Column {
         ThemeBrandSettings(
@@ -137,12 +139,18 @@ private fun SettingsDialogContent(
         )
         DarkThemeSettings(
             state.darkThemeConf,
-            onChangeDarkThemeConfig
+            onChangeDarkThemeConfig,
         )
         DynamicColorsSettings(
             state.useDynamicColor,
             onChangeDynamicColorPreference
         ) { supportsDynamicTheming() && state.themeBrand == ThemeBrandConf.DEFAULT }
+        Button(
+            onClick = onClearCache,
+            modifier = Modifier.align(CenterHorizontally)
+        ) {
+            Text(text = stringResource(id = R.string.clear_cache))
+        }
     }
 }
 

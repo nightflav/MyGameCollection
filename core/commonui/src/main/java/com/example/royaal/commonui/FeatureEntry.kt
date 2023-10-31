@@ -1,6 +1,7 @@
 package com.example.royaal.commonui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
@@ -14,6 +15,9 @@ inline fun <reified T : FeatureEntry> Destinations.find(): T =
 
 interface FeatureEntry {
 
+    val selectedIcon: ImageVector?
+    val unselectedIcon: ImageVector?
+    val name: String
     val featureRoute: String
 
     val args: List<NamedNavArgument>

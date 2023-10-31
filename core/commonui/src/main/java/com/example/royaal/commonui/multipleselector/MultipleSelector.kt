@@ -7,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,7 +26,6 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Constraints
 import com.example.royaal.commonui.CardConst
-import com.example.royaal.commonui.DimConst
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
@@ -109,8 +107,10 @@ fun MultipleSelector(
     selectedOption: String,
     onOptionSelect: (String) -> Unit,
     modifier: Modifier = Modifier,
-    selectedColor: Color = MaterialTheme.colorScheme.onTertiaryContainer,
-    unselectedColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
+    selectedColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
+    unselectedColor: Color = MaterialTheme.colorScheme.onTertiaryContainer,
+    containerColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
+    selectorColor: Color = MaterialTheme.colorScheme.onTertiaryContainer,
     state: MultipleSelectorState = rememberMultipleSelectorState(
         options = options,
         selectedOption = selectedOption,
@@ -130,7 +130,7 @@ fun MultipleSelector(
             .clip(
                 shape = RoundedCornerShape(percent = CardConst.halfCornerRadiusPercent)
             )
-            .background(MaterialTheme.colorScheme.onSurface),
+            .background(containerColor),
         content = {
             val colors = state.textColors
             options.forEachIndexed { index, option ->
@@ -151,7 +151,6 @@ fun MultipleSelector(
                         color = colors[index],
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(horizontal = DimConst.smallPadding),
                     )
                 }
             }
@@ -159,8 +158,8 @@ fun MultipleSelector(
                 modifier = Modifier
                     .layoutId(MultiOption.Background)
                     .background(
-                        color = MaterialTheme.colorScheme.tertiaryContainer,
-                        shape = RoundedCornerShape(CardConst.halfCornerRadiusPercent)
+                        color = selectorColor,
+                        shape = RoundedCornerShape(50),
                     )
             )
         }

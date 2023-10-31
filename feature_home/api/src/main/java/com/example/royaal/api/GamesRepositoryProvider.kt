@@ -6,7 +6,6 @@ import com.example.royaal.feature_home.repository.GamesRepository
 interface GamesRepositoryProvider {
 
     val gamesRepo: GamesRepository
-
 }
 
 val LocalGamesRepositoryProvider = compositionLocalOf<GamesRepositoryProvider> {
