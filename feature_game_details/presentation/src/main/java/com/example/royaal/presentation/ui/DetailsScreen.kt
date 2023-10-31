@@ -23,8 +23,12 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,31 +50,44 @@ import com.example.royaal.presentation.DetailsScreenState.Companion.game
 import com.example.royaal.presentation.R
 
 @Composable
-fun DetailsScreen(
+internal fun DetailsScreen(
     modifier: Modifier = Modifier,
     state: DetailsScreenState,
     onSimilarGameClick: (Int) -> Unit,
-    onPlatformClick: (Int) -> Unit
+    onPlatformClick: (Int) -> Unit,
+    onBackPressed: () -> Unit
 ) {
     LazyColumn(
         modifier = modifier
     ) {
         item {
-            AsyncImage(
-                model = state.backgroundImg,
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.3625f)
-                    .aspectRatio(1f)
-                    .clip(
-                        RoundedCornerShape(
-                            bottomStartPercent = 10,
-                            bottomEndPercent = 10
+            Box {
+                AsyncImage(
+                    model = state.backgroundImg,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.3625f)
+                        .aspectRatio(1f)
+                        .clip(
+                            RoundedCornerShape(
+                                bottomStartPercent = 10,
+                                bottomEndPercent = 10
+                            )
                         )
-                    ),
-                contentScale = ContentScale.FillHeight
-            )
+                        .align(Alignment.Center),
+                    contentScale = ContentScale.FillHeight
+                )
+                IconButton(
+                    modifier = Modifier.align(Alignment.TopStart),
+                    onClick = onBackPressed
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = null
+                    )
+                }
+            }
         }
         item {
             GameInfo(
@@ -187,7 +204,8 @@ private fun PlatformItem(
         Text(
             text = platform.name,
             fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
-            modifier = Modifier.padding(vertical = 2.dp, horizontal = 8.dp)
+            modifier = Modifier.padding(vertical = 2.dp, horizontal = 8.dp),
+            color = MaterialTheme.colorScheme.onSecondary
         )
     }
 }
@@ -219,9 +237,14 @@ private fun SimilarGames(
     similarGames: List<PreviewGameModel>
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier.padding(horizontal = DimConst.doublePadding),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(DimConst.defaultPadding),
         content = {
+            Text(
+                text = stringResource(id = R.string.similar_games),
+                style = MaterialTheme.typography.titleLarge,
+            )
             for (game in similarGames) {
                 SimilarGamePreview(
                     game = game,
@@ -239,7 +262,9 @@ private fun SimilarGamePreview(
     onSimilarGameClick: (Int) -> Unit
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .aspectRatio(16f / 9f),
         shape = RoundedCornerShape(15)
     ) {
         AsyncImage(
@@ -249,7 +274,8 @@ private fun SimilarGamePreview(
                 .clickable {
                     onSimilarGameClick(game.id)
                 }
-                .fillMaxSize()
+                .fillMaxSize(),
+            contentScale = ContentScale.Crop
         )
     }
 }

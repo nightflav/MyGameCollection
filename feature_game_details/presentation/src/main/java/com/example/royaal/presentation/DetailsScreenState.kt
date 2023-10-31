@@ -5,7 +5,7 @@ import com.example.royaal.core.common.model.uimodel.Platform
 import com.example.royaal.core.common.model.uimodel.PreviewGameModel
 import com.example.royaal.core.common.model.uimodel.Screenshot
 
-data class DetailsScreenState(
+internal data class DetailsScreenState(
     val gameId: Int,
     val title: String,
     val backgroundImg: String,
@@ -16,6 +16,7 @@ data class DetailsScreenState(
     val isFavourite: Boolean,
     val isCompleted: Boolean,
     val isInWishList: Boolean,
+    val similarGameLoading: Boolean,
     val isLoading: Boolean = true,
     val error: Throwable? = null,
 ) {
@@ -30,7 +31,8 @@ data class DetailsScreenState(
             similarGames = emptyList(),
             isFavourite = false,
             isCompleted = false,
-            isInWishList = false
+            isInWishList = false,
+            similarGameLoading = true
         )
 
         val DetailsScreenState.game

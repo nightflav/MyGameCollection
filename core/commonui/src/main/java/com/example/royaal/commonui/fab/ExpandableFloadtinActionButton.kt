@@ -8,11 +8,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -51,6 +48,7 @@ interface ExpandableFabState {
 @Stable
 class ExpandableFabStateImpl(
     isExpanded: Boolean,
+    duration: Int
 ) : ExpandableFabState {
     override val isExpanded: Boolean
         get() = (_isExpanded.value > 0)
@@ -61,7 +59,7 @@ class ExpandableFabStateImpl(
     private val _isExpanded = Animatable(if (isExpanded) 1f else 0f)
 
     private val animationSpec = tween<Float>(
-        durationMillis = 1000,
+        durationMillis = duration,
         easing = FastOutSlowInEasing,
     )
 
@@ -85,17 +83,20 @@ class ExpandableFabStateImpl(
 
 @Composable
 fun rememberExpandableFabState(
-    isExpanded: Boolean
+    isExpanded: Boolean,
+    duration: Int
 ) = remember {
     ExpandableFabStateImpl(
-        isExpanded
+        isExpanded,
+        duration
     )
 }
 
 class ExpandedFabOption(
     val name: String,
     val icon: ImageVector,
-    val onOptionSelected: () -> Unit,
+    val shape: Shape? = null,
+    val onOptionSelected: (ExpandedFabOption) -> Unit,
 )
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -104,8 +105,10 @@ fun ExpandableFloatingActionButton(
     modifier: Modifier = Modifier,
     expandedColor: Color,
     mainButtonColor: Color,
+    expansionDuration: Int,
     state: ExpandableFabState = rememberExpandableFabState(
-        isExpanded = false
+        isExpanded = false,
+        duration = expansionDuration
     ),
     options: List<ExpandedFabOption>,
     icon: ImageVector,
@@ -113,7 +116,12 @@ fun ExpandableFloatingActionButton(
     optionRoundedCorners: Dp = 16.dp,
     mainButtonWidth: Dp,
     mainButtonHeight: Dp,
-    onClick: () -> Unit,
+    needToRotate: Boolean = false,
+    onClick: (ExpandableFabState, CoroutineScope) -> Unit = { fabState, scope ->
+        if (fabState.isExpanded) fabState.collapse(scope)
+        else fabState.expand(scope)
+    },
+    spaceBetweenOptions: Dp = 0.dp
 ) {
     val fabScope = rememberCoroutineScope()
     require(options.isNotEmpty()) { "Not enough options" }
@@ -131,7 +139,7 @@ fun ExpandableFloatingActionButton(
                 Box(
                     modifier = Modifier
                         .clip(
-                            if (i == options.size - 1) {
+                            shape = option.shape ?: if (i == options.size - 1) {
                                 RoundedCornerShape(
                                     topStart = (50 * state.expansionState).dp + optionRoundedCorners,
                                     topEnd = (50 * state.expansionState).dp + optionRoundedCorners,
@@ -144,19 +152,12 @@ fun ExpandableFloatingActionButton(
                         )
                         .background(expandedColor)
                         .layoutId(FabOption.OptionButton)
-                        .clickable { option.onOptionSelected() },
+                        .clickable { option.onOptionSelected(option) },
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = option.icon,
                         contentDescription = null,
-                    )
-                    Box(
-                        modifier = Modifier
-                            .height(2.dp)
-                            .fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.onSurface)
-                            .align(Alignment.BottomCenter)
                     )
                 }
             }
@@ -166,7 +167,9 @@ fun ExpandableFloatingActionButton(
                     .background(mainButtonColor)
                     .layoutId(FabOption.MainButton)
                     .combinedClickable(
-                        onClick = onClick,
+                        onClick = {
+                            onClick(state, fabScope)
+                        },
                         onLongClick = {
                             if (state.isExpanded)
                                 state.collapse(fabScope)
@@ -179,7 +182,7 @@ fun ExpandableFloatingActionButton(
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    modifier = Modifier.rotate(state.expansionState * 180)
+                    modifier = Modifier.rotate(if (needToRotate) state.expansionState * 180 else 0f)
                 )
             }
         },
@@ -203,10 +206,10 @@ fun ExpandableFloatingActionButton(
             measurables.first { it.layoutId == FabOption.MainButton }.measure(mainButtonConstraints)
         val width = mainButtonWidth.roundToPx()
         val height =
-            if (state.isExpanded)
+            (if (state.isExpanded)
                 (optionHeight * options.size + mainButtonHeight.roundToPx())
             else
-                mainButtonHeight.roundToPx()
+                mainButtonHeight.roundToPx()) + spaceBetweenOptions.roundToPx() * options.size
         layout(
             width = width, height = height
         ) {
@@ -214,7 +217,7 @@ fun ExpandableFloatingActionButton(
                 optionPlaceables.reversed().forEachIndexed { i, option ->
                     option.place(
                         x = ((mainButtonWidthPx - optionWidth) / 2),
-                        y = (height - mainButtonHeightPx - i * state.expansionState * optionHeight).toInt()
+                        y = (height - mainButtonHeightPx - i * state.expansionState * (optionHeight + spaceBetweenOptions.roundToPx())).toInt()
                     )
                 }
             }

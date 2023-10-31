@@ -30,5 +30,4 @@ dependencies {
     //DI
     implementation(libs.dagger.kt)
     ksp(libs.dagger.compiler)
-    implementation(kotlin("stdlib-jdk8"))
 }

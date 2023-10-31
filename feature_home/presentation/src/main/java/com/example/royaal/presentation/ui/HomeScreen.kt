@@ -2,6 +2,9 @@ package com.example.royaal.presentation.ui
 
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,8 +13,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
@@ -19,6 +24,7 @@ import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.PagerSnapDistance
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -44,11 +50,89 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.royaal.commonui.CardConst
 import com.example.royaal.commonui.DimConst
+import com.example.royaal.commonui.LoadingPlaceholder
+import com.example.royaal.commonui.multipleselector.MultipleSelector
 import com.example.royaal.core.common.model.uimodel.PreviewGameModel
 import com.example.royaal.core.common.model.uimodel.ProfileModel
+import com.example.royaal.presentation.HomeGamesCategory
+import com.example.royaal.presentation.HomeScreenState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
+
+@Composable
+internal fun HomeMain(
+    state: HomeScreenState,
+    modifier: Modifier = Modifier,
+    onGameClick: (Int) -> Unit,
+    onChangeCategory: (HomeGamesCategory) -> Unit,
+) {
+    val scrollState = rememberScrollState()
+    Column(
+        modifier = modifier
+            .scrollable(
+                state = scrollState,
+                orientation = Orientation.Vertical
+            )
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(DimConst.defaultPadding),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(DimConst.doublePadding),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Profile(
+                profile = state.profile,
+                modifier = Modifier
+                    .height(92.dp)
+                    .weight(7f)
+            )
+        }
+        Box(modifier = Modifier.padding(DimConst.defaultPadding)) {
+            MultipleSelector(
+                options = HomeGamesCategory.allCategories(),
+                selectedOption = state.category.toString(),
+                onOptionSelect = {
+                    val newCategory = HomeGamesCategory.getCategoryByName(it)
+                    onChangeCategory(newCategory)
+                },
+                modifier = Modifier.height(36.dp)
+            )
+        }
+        Games(
+            areGamesLoading = state.areGamesLoading,
+            games = state.games,
+            onGameClick = onGameClick
+        )
+        Box(
+            modifier = Modifier
+                .background(
+                    shape = RoundedCornerShape(CardConst.fullCornerRadiusPercent),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                .height(4.dp)
+                .width((LocalConfiguration.current.screenWidthDp * 0.8).dp)
+        )
+    }
+}
+
+@Composable
+private fun Games(
+    areGamesLoading: Boolean,
+    games: List<PreviewGameModel>,
+    onGameClick: (Int) -> Unit
+) {
+    if (areGamesLoading) {
+        LoadingPlaceholder()
+    }
+    GamesCarousel(
+        games = games,
+        onGameClick = onGameClick,
+    )
+}
 
 @Composable
 internal fun Profile(

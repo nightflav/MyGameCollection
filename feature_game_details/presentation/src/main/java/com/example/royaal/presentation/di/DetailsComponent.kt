@@ -1,6 +1,6 @@
 package com.example.royaal.presentation.di
 
-import com.example.royaal.api.GameDetailsRepoProvider
+import com.example.royaal.api.GameDetailsRepositoryProvider
 import com.example.royaal.core.common.di.PerFeature
 import com.example.royaal.core.database.di.DatabaseProvider
 import com.example.royaal.core.network.di.NetworkProvider
@@ -12,7 +12,7 @@ import dagger.Component
     dependencies = [
         DatabaseProvider::class,
         NetworkProvider::class,
-        GameDetailsRepoProvider::class
+        GameDetailsRepositoryProvider::class
     ]
 )
 internal interface DetailsComponent {
@@ -25,7 +25,7 @@ internal interface DetailsComponent {
         fun create(
             databaseProvider: DatabaseProvider,
             networkProvider: NetworkProvider,
-            gameDetailRepoProvider: GameDetailsRepoProvider
+            gameDetailsRepoProvider: GameDetailsRepositoryProvider
         ): DetailsComponent
     }
 

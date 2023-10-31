@@ -9,7 +9,9 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 dependencies {
+    //Modules
     implementation(project(":core:common"))
+    //DI
     implementation(libs.dagger.kt)
     ksp(libs.dagger.compiler)
 }

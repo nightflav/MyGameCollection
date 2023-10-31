@@ -1,6 +1,5 @@
 package com.example.royaal.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.royaal.core.common.StateResult
@@ -37,7 +36,6 @@ internal class HomeViewModel @Inject constructor(
     }
 
     init {
-        Log.d("tagtag", "init vm home")
         subscribeToEvents()
         viewModelScope.launch {
             eventQueue.send(
@@ -86,7 +84,6 @@ internal class HomeViewModel @Inject constructor(
     }
 
     private suspend fun selectCategory(id: HomeGamesCategory) {
-        Log.d("TAGTAG", "selectCategory")
         if (id != currState.category)
             when (id) {
                 HomeGamesCategory.LatestReleases -> {
@@ -119,7 +116,6 @@ internal class HomeViewModel @Inject constructor(
     }
 
     private suspend fun setCategory(items: List<PreviewGameModel>, type: HomeGamesCategory) {
-        Log.d("tagtag", "setting category")
         _screenState.emit(
             currState.copy(
                 games = items,

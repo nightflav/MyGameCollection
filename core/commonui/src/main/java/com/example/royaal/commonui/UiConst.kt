@@ -9,6 +9,7 @@ object DimConst {
     val doublePadding = 16.dp
     val triplePadding = 24.dp
     val bigPadding = 32.dp
+    val largePadding = 64.dp
 }
 
 object CardConst {

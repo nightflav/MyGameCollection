@@ -59,5 +59,6 @@ dependencies {
     implementation(project(mapOf("path" to ":core:data")))
     //DI
     implementation(libs.dagger.kt)
+    implementation(project(mapOf("path" to ":core:database")))
     ksp(libs.dagger.compiler)
 }

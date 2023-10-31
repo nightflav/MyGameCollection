@@ -5,22 +5,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.royaal.core.common.model.DarkThemeConfiguration
 import com.example.royaal.core.common.model.ThemeBrandConf
+import com.example.royaal.core.database.app.GamesDao
 import com.example.royaal.data.UserSettingsRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class SettingsViewModel @AssistedInject constructor(
     private val userSettingsRepository: UserSettingsRepository,
+    private val gamesDao: GamesDao,
     @Assisted savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -37,36 +34,25 @@ class SettingsViewModel @AssistedInject constructor(
         started = SharingStarted.Eagerly,
         initialValue = SettingsScreenUiState.Loading
     )
-    val eventQueue = Channel<SettingsEvents>()
 
-    init {
-        subscribeToEvents()
-    }
-
-    @OptIn(FlowPreview::class)
-    private fun subscribeToEvents() {
+    fun sendEvent(event: SettingsEvents) {
         viewModelScope.launch {
-            eventQueue.receiveAsFlow()
-                .debounce(100L)
-                .distinctUntilChanged()
-                .collect {
-                    sendEvent(it)
+            when (event) {
+                is SettingsEvents.UpdateDarkThemeConfig -> {
+                    updateDarkThemeConfiguration(event.newDarkThemeConfiguration)
                 }
-        }
-    }
 
-    private suspend fun sendEvent(event: SettingsEvents) {
-        when (event) {
-            is SettingsEvents.UpdateDarkThemeConfig -> {
-                updateDarkThemeConfiguration(event.newDarkThemeConfiguration)
-            }
+                is SettingsEvents.UpdateThemeBrand -> {
+                    updateThemeBrand(event.newThemeBrandConf)
+                }
 
-            is SettingsEvents.UpdateThemeBrand -> {
-                updateThemeBrand(event.newThemeBrandConf)
-            }
+                is SettingsEvents.UpdateUseDynamicColor -> {
+                    updateUseDynamicColor(event.shouldUse)
+                }
 
-            is SettingsEvents.UpdateUseDynamicColor -> {
-                updateUseDynamicColor(event.shouldUse)
+                SettingsEvents.ClearUnusedCache -> {
+                    gamesDao.clearCache()
+                }
             }
         }
     }
@@ -77,6 +63,8 @@ class SettingsViewModel @AssistedInject constructor(
 
         data class UpdateUseDynamicColor(val shouldUse: Boolean) : SettingsEvents
         data class UpdateThemeBrand(val newThemeBrandConf: ThemeBrandConf) : SettingsEvents
+
+        data object ClearUnusedCache : SettingsEvents
     }
 
     private suspend fun updateDarkThemeConfiguration(newDarkThemeConfiguration: DarkThemeConfiguration) {

@@ -6,9 +6,8 @@ import dagger.Binds
 import dagger.Module
 
 @Module
-interface GameDetailRepoModule {
+interface GameDetailsRepositoryModule {
 
     @Binds
     fun bindsGamesRepo(repo: GameDetailRepositoryImpl): GameDetailsRepository
-
 }

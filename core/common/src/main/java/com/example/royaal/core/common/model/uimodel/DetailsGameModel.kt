@@ -7,4 +7,7 @@ data class DetailsGameModel(
     val platforms: List<Platform>,
     val screenshots: List<Screenshot>,
     val description: String,
+    val isFavourite: Boolean = false,
+    val isInWishlist: Boolean = false,
+    val isCompleted: Boolean = false
 )
