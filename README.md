@@ -9,6 +9,10 @@ So i decided to make my own because I able to do it and want it. So here it is!
 - DI is made with pure Dagger, so no Hilt and anything like that.
 - Background tasks and asynchronous programming via kotlinx.Coroutines and Flows
 
+## Preview
+
+https://www.youtube.com/watch?v=xcGDm8Smxzs
+
 ## Stack
 
 |What|Technology|
