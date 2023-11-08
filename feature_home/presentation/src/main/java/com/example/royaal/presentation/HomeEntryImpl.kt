@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -29,6 +30,7 @@ class HomeEntryImpl @Inject constructor() : HomeEntry() {
 
     @Composable
     override fun Screen(
+        modifier: Modifier,
         navController: NavHostController,
         destinations: Destinations,
         backStackEntry: NavBackStackEntry

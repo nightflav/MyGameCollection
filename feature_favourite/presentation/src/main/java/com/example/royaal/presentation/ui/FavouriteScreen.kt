@@ -29,13 +29,14 @@ import com.example.royaal.presentation.FavouriteScreenState
 
 @Composable
 internal fun FavouriteScreen(
+    modifier: Modifier = Modifier,
     state: FavouriteScreenState,
     onGameClick: (Int) -> Unit,
     onSelectCategory: (FavouriteScreenCategory) -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(DimConst.defaultPadding),
-        modifier = Modifier.padding(top = DimConst.bigPadding)
+        modifier = modifier
     ) {
         Text(
             text = state.selectedCategory.toString(),

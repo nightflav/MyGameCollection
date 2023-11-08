@@ -1,6 +1,7 @@
 package com.example.royaal.commonui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
@@ -15,8 +16,8 @@ inline fun <reified T : FeatureEntry> Destinations.find(): T =
 
 interface FeatureEntry {
 
-    val selectedIcon: ImageVector?
-    val unselectedIcon: ImageVector?
+    val selectedIcon: ImageVector
+    val unselectedIcon: ImageVector
     val name: String
     val featureRoute: String
 
@@ -24,12 +25,14 @@ interface FeatureEntry {
 
     @Composable
     fun Screen(
+        modifier: Modifier,
         navController: NavHostController,
         destinations: Destinations,
         backStackEntry: NavBackStackEntry
     )
 
     fun NavGraphBuilder.screen(
+        modifier: Modifier = Modifier,
         navController: NavHostController,
         destinations: Destinations
     ) {
@@ -37,7 +40,12 @@ interface FeatureEntry {
             route = featureRoute,
             arguments = args
         ) { backStackEntry ->
-            Screen(navController, destinations, backStackEntry)
+            Screen(
+                modifier,
+                navController,
+                destinations,
+                backStackEntry
+            )
         }
     }
 }

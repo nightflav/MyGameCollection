@@ -2,26 +2,26 @@
 androidGradlePlugin = "8.1.2"
 androidxActivity = "1.8.0"
 androidxAppCompat = "1.6.1"
-androidxComposeBom = "2023.10.00"
+androidxComposeBom = "2023.10.01"
 androidxComposeCompiler = "1.5.3"
 androidxComposeRuntimeTracing = "1.0.0-alpha04"
 androidxCore = "1.12.0"
 androidxCoreSplashscreen = "1.0.1"
 androidxDataStore = "1.0.0"
 androidxLifecycle = "2.6.2"
-androidxNavigation = "2.7.4"
+androidxNavigation = "2.7.5"
 coil = "2.4.0"
 kotlin = "1.9.10"
 kotlinxCoroutines = "1.7.3"
-kotlinxDatetime = "0.4.0"
+kotlinxDatetime = "0.4.1"
 kotlinxSerializationJson = "1.6.0"
 ksp = "1.9.10-1.0.13"
-okhttp = "4.11.0"
+okhttp = "4.12.0"
 retrofit = "2.9.0"
 retrofitKotlinxSerializationJson = "1.0.0"
-room = "2.5.2"
+room = "2.6.0"
 secrets = "2.0.1"
-splash = "1.0.0"
+splash = "1.0.1"
 org-jetbrains-kotlin-android = "1.9.10"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
@@ -32,6 +32,7 @@ dagger = "2.48.1"
 lottie = "6.1.0"
 protobuf = "3.24.4"
 protobufPlugin = "0.9.4"
+palette = "1.0.0"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
@@ -49,6 +50,7 @@ androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-dataStore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "androidxDataStore" }
 androidx-dataStore = { group = "androidx.datastore", name = "datastore", version.ref = "androidxDataStore" }
+androidx-palette = { group = "androidx.palette", name = "palette", version.ref = "palette" }
 androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }

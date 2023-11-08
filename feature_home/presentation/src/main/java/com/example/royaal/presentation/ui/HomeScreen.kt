@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -73,8 +72,7 @@ internal fun HomeMain(
             .scrollable(
                 state = scrollState,
                 orientation = Orientation.Vertical
-            )
-            .fillMaxSize(),
+            ),
         verticalArrangement = Arrangement.spacedBy(DimConst.defaultPadding),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -129,7 +127,7 @@ private fun Games(
         LoadingPlaceholder()
     }
     GamesCarousel(
-        games = games,
+        games = { games },
         onGameClick = onGameClick,
     )
 }
@@ -152,8 +150,7 @@ internal fun Profile(
             contentScale = ContentScale.Crop,
         )
         Column(
-            modifier = Modifier
-                .fillMaxHeight(),
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Text(
@@ -173,7 +170,7 @@ internal fun Profile(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun GamesCarousel(
-    games: List<PreviewGameModel>,
+    games: () -> List<PreviewGameModel>,
     onGameClick: (Int) -> Unit,
     autoScrollDuration: Long = 5000L
 ) {
@@ -183,7 +180,7 @@ internal fun GamesCarousel(
     val carouselPadding = (screenWidth / 1.4 * 0.2).dp
     val carouselItemSize = (screenWidth / 1.4).dp
     val pagerState = rememberPagerState {
-        games.size
+        games().size
     }
     val pagerScope = rememberCoroutineScope()
     val pageOffset by remember {
@@ -217,7 +214,6 @@ internal fun GamesCarousel(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-
         HorizontalPager(
             state = pagerState,
             pageSize = PageSize.Fixed(carouselItemSize),
@@ -225,12 +221,12 @@ internal fun GamesCarousel(
             contentPadding = PaddingValues(horizontal = carouselPadding),
             flingBehavior = PagerDefaults.flingBehavior(
                 state = pagerState,
-                pagerSnapDistance = PagerSnapDistance.atMost(8)
+                pagerSnapDistance = PagerSnapDistance.atMost(100),
             ),
             modifier = Modifier.fillMaxWidth()
         ) { index ->
             GamePreviewItem(
-                game = games[index],
+                game = games()[index],
                 onGameClick = {
                     if (pagerState.currentPage == index) onGameClick(it) else {
                         pagerScope.launch {
@@ -250,10 +246,10 @@ internal fun GamesCarousel(
             )
         }
 
-        if (games.isNotEmpty()) {
+        if (games().isNotEmpty()) {
             Box {
                 Text(
-                    text = games[pagerState.currentPage % games.size].name,
+                    text = games()[pagerState.currentPage % games().size].name,
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     modifier = Modifier.alpha(
                         (1F - pageOffset * 4).coerceAtLeast(0F)

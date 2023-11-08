@@ -1,6 +1,5 @@
 package com.example.royaal.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.royaal.core.common.fetchResult
@@ -89,7 +88,6 @@ internal class DetailsViewModel @Inject constructor(
     }
 
     private suspend fun addToFavourite() {
-        Log.d("TAGTAG", "addToFav $currState")
         if (currState.isFavourite) {
             removeGameFromFavouriteUseCase(currState.gameId)
         } else {
@@ -129,7 +127,6 @@ internal class DetailsViewModel @Inject constructor(
 
     private suspend fun loadScreen(id: Int) {
         loadScreenUseCase(id).collect {
-            Log.d("TAGTAG", "got $it")
             it.fetchResult(
                 onLoading = {
                     _state.emit(

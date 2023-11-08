@@ -11,8 +11,6 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
@@ -26,12 +24,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.royaal.api.FavouriteFeatureEntry
-import com.example.royaal.api.HomeEntry
 import com.example.royaal.api.LocalGameDetailsProvider
 import com.example.royaal.api.LocalGamesRepositoryProvider
 import com.example.royaal.api.LocalLocalGamesRepositoryProvider
-import com.example.royaal.commonui.bottomappbar.BottomGamesBar
 import com.example.royaal.core.common.model.DarkThemeConfiguration
 import com.example.royaal.core.common.model.ThemeBrandConf
 import com.example.royaal.core.database.di.LocalDatabaseProvider
@@ -43,7 +38,6 @@ import com.example.royaal.mygamecollection.ui.theme.AppTheme
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-
 
 class MainActivity : ComponentActivity() {
 
@@ -61,8 +55,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         enableEdgeToEdge()
-        hideBottomNavigationBar()
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        hideBottomNavigationBar()
         super.onCreate(savedInstanceState)
         var uiState: MainActivityUiState by mutableStateOf(MainActivityUiState.Loading)
 
@@ -112,26 +106,11 @@ class MainActivity : ComponentActivity() {
                     LocalDataProvider provides appComponent,
                     LocalLocalGamesRepositoryProvider provides appComponent
                 ) {
-                    Surface {
-                        Scaffold(
-                            bottomBar = {
-                                BottomGamesBar(
-                                    navController = navController,
-                                    destinations = destinations.filter {
-                                        it.key == HomeEntry::class.java ||
-                                                it.key == FavouriteFeatureEntry::class.java
-                                    }
-                                )
-                            }
-                        ) {
-                            MainNavHost(
-                                navController = navController,
-                                settingsViewModel = settingsViewModel,
-                                destinations = destinations,
-                                paddingValues = it
-                            )
-                        }
-                    }
+                    MainNavHost(
+                        navController = navController,
+                        settingsViewModel = settingsViewModel,
+                        destinations = destinations
+                    )
                 }
             }
         }

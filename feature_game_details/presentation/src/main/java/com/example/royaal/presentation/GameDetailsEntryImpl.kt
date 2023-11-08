@@ -1,7 +1,11 @@
 package com.example.royaal.presentation
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Details
+import androidx.compose.material.icons.outlined.Details
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -17,15 +21,16 @@ import com.example.royaal.presentation.ui.DetailsRoute
 import javax.inject.Inject
 
 class GameDetailsEntryImpl @Inject constructor() : GameDetailsEntry() {
-    override val selectedIcon: ImageVector?
-        get() = null
-    override val unselectedIcon: ImageVector?
-        get() = null
+    override val selectedIcon: ImageVector
+        get() = Icons.Default.Details
+    override val unselectedIcon: ImageVector
+        get() = Icons.Outlined.Details
     override val name: String
         get() = "details"
 
     @Composable
     override fun Screen(
+        modifier: Modifier,
         navController: NavHostController,
         destinations: Destinations,
         backStackEntry: NavBackStackEntry

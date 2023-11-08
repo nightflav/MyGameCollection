@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -28,6 +29,7 @@ class FavouriteFeatureEntryImpl @Inject constructor() : FavouriteFeatureEntry() 
 
     @Composable
     override fun Screen(
+        modifier: Modifier,
         navController: NavHostController,
         destinations: Destinations,
         backStackEntry: NavBackStackEntry
@@ -42,6 +44,7 @@ class FavouriteFeatureEntryImpl @Inject constructor() : FavouriteFeatureEntry() 
             favComponent.favouriteViewModel
         }
         FavouriteRoute(
+            modifier = modifier,
             viewModel = viewModel,
             onGameClick = {
                 val destination = destinations

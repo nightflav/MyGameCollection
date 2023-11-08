@@ -90,4 +90,8 @@ dependencies {
     implementation(project(":feature_favourite:api"))
     implementation(project(":feature_favourite:data"))
     implementation(project(":feature_favourite:presentation"))
+    implementation(project(":feature_explore:domain"))
+    implementation(project(":feature_explore:api"))
+    implementation(project(":feature_explore:data"))
+    implementation(project(":feature_explore:presentation"))
 }

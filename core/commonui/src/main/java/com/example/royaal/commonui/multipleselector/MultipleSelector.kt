@@ -107,10 +107,12 @@ fun MultipleSelector(
     selectedOption: String,
     onOptionSelect: (String) -> Unit,
     modifier: Modifier = Modifier,
+
     selectedColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
     unselectedColor: Color = MaterialTheme.colorScheme.onTertiaryContainer,
     containerColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
     selectorColor: Color = MaterialTheme.colorScheme.onTertiaryContainer,
+
     state: MultipleSelectorState = rememberMultipleSelectorState(
         options = options,
         selectedOption = selectedOption,

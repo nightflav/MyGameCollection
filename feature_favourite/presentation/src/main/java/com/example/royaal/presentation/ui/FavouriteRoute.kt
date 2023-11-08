@@ -4,11 +4,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import com.example.royaal.commonui.LoadingPlaceholder
 import com.example.royaal.presentation.FavouriteViewModel
 
 @Composable
 internal fun FavouriteRoute(
+    modifier: Modifier = Modifier,
     viewModel: FavouriteViewModel,
     onGameClick: (Int) -> Unit
 ) {
@@ -23,6 +25,7 @@ internal fun FavouriteRoute(
         }
 
         else -> FavouriteScreen(
+            modifier = modifier,
             state = state,
             onGameClick = onGameClick,
             onSelectCategory = {

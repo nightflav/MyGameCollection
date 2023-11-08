@@ -3,6 +3,7 @@ package com.example.royaal.mygamecollection.di
 import android.app.Application
 import androidx.datastore.core.DataStore
 import com.example.royaal.UserSettings
+import com.example.royaal.api.ExploreRepositoryProvider
 import com.example.royaal.api.GameDetailsRepositoryProvider
 import com.example.royaal.api.GamesRepositoryProvider
 import com.example.royaal.api.LocalGamesRepositoryProvider
@@ -13,6 +14,7 @@ import com.example.royaal.core.network.di.NetworkModule
 import com.example.royaal.core.network.di.NetworkProvider
 import com.example.royaal.data.DataModule
 import com.example.royaal.data.DataProvider
+import com.example.royaal.data.di.ExploreRepositoryModule
 import com.example.royaal.data.di.GameDetailsRepositoryModule
 import com.example.royaal.data.di.LocalGamesRepositoryModule
 import com.example.royaal.feature_home.di.GamesRepoModule
@@ -30,6 +32,7 @@ import javax.inject.Singleton
         GamesRepoModule::class,
         GameDetailsRepositoryModule::class,
         LocalGamesRepositoryModule::class,
+        ExploreRepositoryModule::class,
         NavigationModule::class
     ]
 )]
@@ -39,7 +42,8 @@ interface ApplicationComponent :
     NetworkProvider,
     GameDetailsRepositoryProvider,
     GamesRepositoryProvider,
-    LocalGamesRepositoryProvider {
+    LocalGamesRepositoryProvider,
+    ExploreRepositoryProvider {
     @Component.Factory
     interface Factory {
         fun create(

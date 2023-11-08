@@ -1,5 +1,6 @@
 package com.example.royaal.core.network
 
+import com.example.royaal.core.network.model.developers.DevelopersResponse
 import com.example.royaal.core.network.model.game.GameNetworkResponse
 import com.example.royaal.core.network.model.gamedetails.GameDetailsResponse
 import com.example.royaal.core.network.model.gameseries.GameSeriesNetworkResponse
@@ -63,6 +64,9 @@ interface GamesApi {
 
     @GET("platforms")
     suspend fun getPlatforms(): Response<PlatformsNetworkResponse>
+
+    @GET("developers")
+    suspend fun getDevelopers(): Response<DevelopersResponse>
 
     @GET("games/{id}")
     suspend fun getGameDetails(

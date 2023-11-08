@@ -1,6 +1,8 @@
 package com.example.royaal.presentation.ui
 
+import android.graphics.Bitmap
 import android.text.Html
+import androidx.compose.animation.Animatable
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,13 +13,16 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
@@ -32,12 +37,17 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.drawable.toBitmap
+import androidx.palette.graphics.Palette
 import coil.compose.AsyncImage
 import com.example.royaal.commonui.DimConst
 import com.example.royaal.commonui.expandabletext.ExpandableText
@@ -48,6 +58,8 @@ import com.example.royaal.core.common.model.uimodel.PreviewGameModel
 import com.example.royaal.presentation.DetailsScreenState
 import com.example.royaal.presentation.DetailsScreenState.Companion.game
 import com.example.royaal.presentation.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun DetailsScreen(
@@ -57,11 +69,15 @@ internal fun DetailsScreen(
     onPlatformClick: (Int) -> Unit,
     onBackPressed: () -> Unit
 ) {
+    val ioScope = rememberCoroutineScope { Dispatchers.Default }
     LazyColumn(
         modifier = modifier
     ) {
         item {
             Box {
+                val iconSizeDp = 36.dp
+                val iconSize = iconSizeDp.value.toInt()
+                val iconColor = remember { Animatable(Color.Blue) }
                 AsyncImage(
                     model = state.backgroundImg,
                     contentDescription = null,
@@ -76,15 +92,35 @@ internal fun DetailsScreen(
                             )
                         )
                         .align(Alignment.Center),
-                    contentScale = ContentScale.FillHeight
+                    contentScale = ContentScale.FillHeight,
+                    onSuccess = {
+                        val bitmap = it.result.drawable.toBitmap()
+                            .copy(Bitmap.Config.ARGB_8888, true)
+                        Palette.from(bitmap)
+                            .maximumColorCount(24)
+                            .clearFilters()
+                            .setRegion(bitmap.width - iconSize, 0, bitmap.width, iconSize)
+                            .generate { palette ->
+                                val domColor = palette?.dominantSwatch?.getContrastColor() ?: return@generate
+                                ioScope.launch {
+                                    iconColor.animateTo(domColor)
+                                }
+                            }
+                    }
                 )
                 IconButton(
-                    modifier = Modifier.align(Alignment.TopStart),
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .windowInsetsPadding(WindowInsets.safeDrawing),
                     onClick = onBackPressed
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = iconColor.value,
+                        modifier = Modifier
+                            .height(iconSizeDp)
+                            .aspectRatio(1f)
                     )
                 }
             }
@@ -278,4 +314,9 @@ private fun SimilarGamePreview(
             contentScale = ContentScale.Crop
         )
     }
+}
+
+private fun Palette.Swatch.getContrastColor(): Color {
+    val color = Color(this.rgb)
+    return Color(1 - color.red, 1 - color.green, 1 - color.blue)
 }
