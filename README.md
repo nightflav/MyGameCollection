@@ -11,7 +11,8 @@ So i decided to make my own because I able to do it and want it. So here it is!
 
 ## Preview
 
-https://www.youtube.com/watch?v=xcGDm8Smxzs
+[https://youtu.be/IoXXhshZyIk?si=Kd3XHqB1eK3fDC6K]
+
 
 ## Stack
 
