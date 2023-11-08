@@ -50,6 +50,7 @@ dependencies {
     implementation(project(":feature_explore:api"))
     //DI
     implementation(libs.dagger.kt)
+    implementation(project(mapOf("path" to ":feature_game_details:api")))
     ksp(libs.dagger.compiler)
     //Android + Material + Compose
     implementation(libs.androidx.lifecycle.runtimeCompose)

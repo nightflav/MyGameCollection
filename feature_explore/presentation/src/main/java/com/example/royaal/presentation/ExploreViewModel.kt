@@ -11,21 +11,31 @@ class ExploreViewModel @Inject constructor() : ViewModel() {
 
     private val _state = MutableStateFlow(ExploreScreenState())
     val state = _state.asStateFlow()
+    private val currState
+        get() = state.value
 
-    sealed class ExploreScreenEvent {
-        data object LoadUpcomingReleases : ExploreScreenEvent()
-        data object LoadLatestReleases : ExploreScreenEvent()
-        data class SearchForGames(val query: String) : ExploreScreenEvent()
+    sealed interface ExploreScreenEvent {
+        data object LoadUpcomingReleases : ExploreScreenEvent
+        data object LoadLatestReleases : ExploreScreenEvent
+        data object SearchForGames : ExploreScreenEvent
+        data class SelectGenre(val newGenre: String) : ExploreScreenEvent
+        data class QueryChange(val newQuery: String) : ExploreScreenEvent
     }
 
     fun sendEvent(e: ExploreScreenEvent) {
         viewModelScope.launch {
-            when(e) {
+            when (e) {
                 ExploreScreenEvent.LoadLatestReleases -> loadLatestReleases()
                 ExploreScreenEvent.LoadUpcomingReleases -> loadUpcomingReleases()
-                is ExploreScreenEvent.SearchForGames -> searchForGames(e.query)
+                ExploreScreenEvent.SearchForGames -> searchForGames()
+                is ExploreScreenEvent.SelectGenre -> selectGenre(e.newGenre)
+                is ExploreScreenEvent.QueryChange -> changeQuery(e.newQuery)
             }
         }
+    }
+
+    private suspend fun selectGenre(genre: String) {
+
     }
 
     private suspend fun loadLatestReleases() {
@@ -36,8 +46,16 @@ class ExploreViewModel @Inject constructor() : ViewModel() {
 
     }
 
-    private suspend fun searchForGames(query: String) {
+    private suspend fun searchForGames() {
 
+    }
+
+    private suspend fun changeQuery(newQuery: String) {
+        _state.emit(
+            currState.copy(
+                searchQuery = newQuery
+            )
+        )
     }
 
 }

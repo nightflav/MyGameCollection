@@ -28,6 +28,7 @@ import androidx.compose.ui.draw.scale
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.royaal.api.ExploreFeatureEntry
 import com.example.royaal.api.FavouriteFeatureEntry
 import com.example.royaal.api.GameDetailsEntry
 import com.example.royaal.api.HomeEntry
@@ -45,7 +46,11 @@ fun MainNavHost(
     settingsViewModel: SettingsViewModel,
     destinations: Destinations
 ) {
-    val navDestinationsFilter = listOf(HomeEntry::class.java, FavouriteFeatureEntry::class.java)
+    val navDestinationsFilter = listOf(
+        HomeEntry::class.java,
+        FavouriteFeatureEntry::class.java,
+        ExploreFeatureEntry::class.java
+    )
     val navDestinations = destinations.filterKeys { it in navDestinationsFilter }
     Scaffold(
         bottomBar = {
@@ -133,7 +138,14 @@ fun MainNavHost(
                 }
                 with(destinations.find<FavouriteFeatureEntry>()) {
                     screen(
-                        Modifier.padding(it),
+                        modifier = Modifier.padding(it),
+                        navController = navController,
+                        destinations = destinations
+                    )
+                }
+                with(destinations.find<ExploreFeatureEntry>()) {
+                    screen(
+                        modifier = Modifier.padding(it),
                         navController = navController,
                         destinations = destinations
                     )

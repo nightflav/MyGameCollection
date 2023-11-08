@@ -8,7 +8,7 @@ interface ExploreRepositoryProvider {
     val provideExploreRepository: ExploreRepository
 }
 
-val LocalExploreRepository =
+val LocalExploreRepositoryProvider =
     compositionLocalOf<ExploreRepositoryProvider> {
         error("No ExploreRepository provided")
     }

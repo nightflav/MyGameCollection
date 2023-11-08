@@ -24,6 +24,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.royaal.api.LocalExploreRepositoryProvider
 import com.example.royaal.api.LocalGameDetailsProvider
 import com.example.royaal.api.LocalGamesRepositoryProvider
 import com.example.royaal.api.LocalLocalGamesRepositoryProvider
@@ -104,7 +105,8 @@ class MainActivity : ComponentActivity() {
                     LocalGamesRepositoryProvider provides appComponent,
                     LocalGameDetailsProvider provides appComponent,
                     LocalDataProvider provides appComponent,
-                    LocalLocalGamesRepositoryProvider provides appComponent
+                    LocalLocalGamesRepositoryProvider provides appComponent,
+                    LocalExploreRepositoryProvider provides appComponent
                 ) {
                     MainNavHost(
                         navController = navController,

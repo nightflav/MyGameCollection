@@ -2,7 +2,7 @@ package com.example.royaal.presentation.di
 
 import com.example.royaal.api.ExploreRepositoryProvider
 import com.example.royaal.core.common.di.PerFeature
-import com.example.royaal.core.network.di.NetworkModule
+import com.example.royaal.core.network.di.NetworkProvider
 import com.example.royaal.presentation.ExploreViewModel
 import dagger.Component
 
@@ -10,7 +10,7 @@ import dagger.Component
 @Component(
     dependencies = [
         ExploreRepositoryProvider::class,
-        NetworkModule::class
+        NetworkProvider::class
     ]
 )
 interface ExploreComponent {
@@ -22,7 +22,7 @@ interface ExploreComponent {
     interface Factory {
         fun create(
             exploreRepositoryProvider: ExploreRepositoryProvider,
-            networkModule: NetworkModule
+            networkProvider: NetworkProvider
         ): ExploreComponent
     }
 }
