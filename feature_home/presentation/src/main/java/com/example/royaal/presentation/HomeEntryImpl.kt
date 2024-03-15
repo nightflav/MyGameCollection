@@ -45,6 +45,7 @@ class HomeEntryImpl @Inject constructor() : HomeEntry() {
             homeComponent.homeViewModel
         }
         HomeRoute(
+            modifier = modifier,
             onGameClick = {
                 val destination = destinations
                     .find<GameDetailsEntry>()

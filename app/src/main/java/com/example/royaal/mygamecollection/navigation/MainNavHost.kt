@@ -65,67 +65,15 @@ fun MainNavHost(
                 navController = navController,
                 startDestination = destinations.find<HomeEntry>().destination(),
                 exitTransition = {
-                    when (initialState.destination.route) {
-                        destinations.find<HomeEntry>().featureRoute -> {
-                            slideOutHorizontally(
-                                targetOffsetX = { -it },
-                                animationSpec = tween(700)
-                            )
-                        }
-
-                        destinations.find<FavouriteFeatureEntry>().featureRoute -> {
-                            when (targetState.destination.route) {
-                                destinations.find<HomeEntry>().featureRoute -> {
-                                    slideOutHorizontally(
-                                        targetOffsetX = { it },
-                                        animationSpec = tween(700)
-                                    )
-                                }
-
-                                else -> {
-                                    fadeOut(tween(700))
-                                }
-                            }
-                        }
-
-                        else -> {
-                            fadeOut(tween(700))
-                        }
-                    }
+                    fadeOut(tween(700))
                 },
                 enterTransition = {
-                    when (targetState.destination.route) {
-                        destinations.find<HomeEntry>().featureRoute -> {
-                            slideInHorizontally(
-                                initialOffsetX = { -it },
-                                animationSpec = tween(700)
-                            )
-                        }
-
-                        destinations.find<FavouriteFeatureEntry>().featureRoute -> {
-                            when (initialState.destination.route) {
-                                destinations.find<HomeEntry>().featureRoute -> {
-                                    slideInHorizontally(
-                                        initialOffsetX = { it },
-                                        animationSpec = tween(700)
-                                    )
-                                }
-
-                                else -> {
-                                    fadeIn(tween(700))
-                                }
-                            }
-                        }
-
-                        else -> {
-                            fadeIn(tween(700))
-                        }
-                    }
+                    fadeIn(tween(700))
                 },
             ) {
                 with(destinations.find<HomeEntry>()) {
                     screen(
-                        modifier = Modifier.padding(it),
+                        modifier = Modifier.padding(bottom = it.calculateBottomPadding()),
                         navController = navController,
                         destinations = destinations
                     )
@@ -138,14 +86,14 @@ fun MainNavHost(
                 }
                 with(destinations.find<FavouriteFeatureEntry>()) {
                     screen(
-                        modifier = Modifier.padding(it),
+                        modifier = Modifier.padding(bottom = it.calculateBottomPadding()),
                         navController = navController,
                         destinations = destinations
                     )
                 }
                 with(destinations.find<ExploreFeatureEntry>()) {
                     screen(
-                        modifier = Modifier.padding(it),
+                        modifier = Modifier.padding(bottom = it.calculateBottomPadding()),
                         navController = navController,
                         destinations = destinations
                     )
@@ -173,6 +121,12 @@ private fun BoxScope.Settings(
             .windowInsetsPadding(WindowInsets.safeDrawing),
         visible = navController.currentBackStackEntryAsState().value?.destination?.route
                 == destinations[HomeEntry::class.java]?.featureRoute,
+        exit = slideOutHorizontally(
+            targetOffsetX = { it }
+        ),
+        enter = slideInHorizontally(
+            initialOffsetX = { it }
+        )
     ) {
         IconButton(
             onClick = { showSettings = true },

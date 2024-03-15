@@ -3,30 +3,29 @@ package com.example.royaal.presentation.ui
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.PagerSnapDistance
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -66,29 +65,11 @@ internal fun HomeMain(
     onGameClick: (Int) -> Unit,
     onChangeCategory: (HomeGamesCategory) -> Unit,
 ) {
-    val scrollState = rememberScrollState()
     Column(
-        modifier = modifier
-            .scrollable(
-                state = scrollState,
-                orientation = Orientation.Vertical
-            ),
+        modifier = modifier.windowInsetsPadding(WindowInsets.safeContent),
         verticalArrangement = Arrangement.spacedBy(DimConst.defaultPadding),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(DimConst.doublePadding),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Profile(
-                profile = state.profile,
-                modifier = Modifier
-                    .height(92.dp)
-                    .weight(7f)
-            )
-        }
         Box(modifier = Modifier.padding(DimConst.defaultPadding)) {
             MultipleSelector(
                 options = HomeGamesCategory.allCategories(),
@@ -145,7 +126,7 @@ internal fun Profile(
             model = profile.imageUrl,
             contentDescription = null,
             modifier = Modifier
-                .clip(RoundedCornerShape(CardConst.halfCornerRadiusPercent))
+                .clip(RoundedCornerShape(CardConst.HALF_CORNER_RADIUS_PERCENT))
                 .aspectRatio(1f, matchHeightConstraintsFirst = true),
             contentScale = ContentScale.Crop,
         )
@@ -260,7 +241,6 @@ internal fun GamesCarousel(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun GamePreviewItem(
     game: PreviewGameModel,
@@ -309,5 +289,4 @@ private fun Modifier.pagerToCarouselItem(
             scaleY = .9F
         }
     }
-
 }

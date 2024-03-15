@@ -36,7 +36,6 @@ import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
@@ -97,7 +96,7 @@ class CircularBottomAppBarStateImpl(
         }
     }
 
-    private val animationSpec = spring<Float>(stiffness = Spring.StiffnessLow)
+    private val animationSpec = spring<Float>(stiffness = Spring.StiffnessMediumLow)
 
     override fun selectRoute(scope: CoroutineScope, newRoute: Int) {
         scope.launch {
@@ -128,15 +127,12 @@ fun CircularBottomAppBar(
     modifier: Modifier = Modifier,
     selectedRoute: CircularBarRoute,
     bottomAppBarShape: Shape = RectangleShape,
-
     containerColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
     selectorColor: Color = MaterialTheme.colorScheme.onTertiaryContainer,
     selectedContentColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
     unselectedContentColor: Color = MaterialTheme.colorScheme.onTertiaryContainer,
-
     windowInsets: WindowInsets = NavigationBarDefaults.windowInsets,
-
-    navBarHeight: Dp = (LocalConfiguration.current.screenHeightDp * 0.1).dp,
+    navBarHeight: Dp = 84.dp,
     routes: List<CircularBarRoute>,
     state: CircularBottomAppBarState = rememberCircularAppBarState(
         routes = routes,
@@ -153,7 +149,7 @@ fun CircularBottomAppBar(
         state.selectRoute(this, routes.indexOf(selectedRoute))
     }
     Layout(
-        modifier = Modifier
+        modifier = modifier
             .clip(bottomAppBarShape)
             .background(containerColor)
             .windowInsetsPadding(windowInsets),

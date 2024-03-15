@@ -30,10 +30,26 @@ android {
         debug {
             buildConfigField("String", "API_URL", "\"https://api.rawg.io/api/\"")
             buildConfigField("String", "API_KEY", properties.getProperty("apikey"))
+            buildConfigField("String", "TWITCH_AUTH_URL", "\"https://id.twitch.tv/\"")
+            buildConfigField("String", "TWITCH_API_URL", "\"https://api.igdb.com/v4/\"")
+            buildConfigField(
+                "String",
+                "TWITCH_CLIENT_ID",
+                properties.getProperty("twitch_client_id")
+            )
+            buildConfigField("String", "TWITCH_SECRET_KEY", properties.getProperty("twitch_secret"))
         }
         release {
             buildConfigField("String", "API_URL", "\"https://api.rawg.io/api/\"")
             buildConfigField("String", "API_KEY", properties.getProperty("apikey"))
+            buildConfigField("String", "TWITCH_AUTH_URL", "\"https://id.twitch.tv/\"")
+            buildConfigField("String", "TWITCH_API_URL", "\"https://api.igdb.com/v4/\"")
+            buildConfigField(
+                "String",
+                "TWITCH_CLIENT_ID",
+                properties.getProperty("twitch_client_id")
+            )
+            buildConfigField("String", "TWITCH_SECRET_KEY", properties.getProperty("twitch_secret"))
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -54,14 +70,23 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.3"
     }
+    packaging {
+        resources {
+            pickFirsts += "protobuf.meta"
+        }
+    }
 }
 
 dependencies {
+    //Modules
+    implementation(project(":core:data"))
+    implementation(project(":core:sharedprefs"))
     //Retrofit + OkHttp
     implementation(libs.retrofit.core)
     api(libs.retrofit.kotlin.serialization)
     implementation(libs.okhttp.logging)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.retrofit.scalar)
     //DI
     implementation(libs.dagger.kt)
     ksp(libs.dagger.compiler)
@@ -69,4 +94,6 @@ dependencies {
     implementation(libs.androidx.compose.bom)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.runtime)
+    //Wrapper
+    api(libs.twitch)
 }

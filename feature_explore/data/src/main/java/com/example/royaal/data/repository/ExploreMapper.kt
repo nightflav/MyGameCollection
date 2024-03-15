@@ -1,13 +1,13 @@
 package com.example.royaal.data.repository
 
-import com.example.royaal.core.common.model.Developer
+import com.example.royaal.core.common.model.uimodel.Developer
 import com.example.royaal.core.common.model.uimodel.Genre
 import com.example.royaal.core.common.model.uimodel.Platform
 import com.example.royaal.core.common.model.uimodel.PreviewGameModel
-import com.example.royaal.core.network.model.GameResult
-import com.example.royaal.core.network.model.developers.Result
-import com.example.royaal.core.network.model.genres.GenresResult
-import com.example.royaal.core.network.model.platforms.PlatformsResult
+import com.example.royaal.core.network.common.model.GameResult
+import com.example.royaal.core.network.common.model.developers.Result
+import com.example.royaal.core.network.common.model.genres.GenresResult
+import com.example.royaal.core.network.common.model.platforms.PlatformsResult
 
 val GameResult.previewGameModel
     get() = PreviewGameModel(
@@ -25,7 +25,8 @@ val Result.developer
     get() = Developer(
         id = id,
         name = name,
-        gamesCount = gamesCount
+        gamesCount = gamesCount,
+        img = imageBackground
     )
 
 val GenresResult.genre

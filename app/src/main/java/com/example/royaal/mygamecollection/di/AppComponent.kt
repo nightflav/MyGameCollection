@@ -1,17 +1,20 @@
 package com.example.royaal.mygamecollection.di
 
 import android.app.Application
+import android.content.SharedPreferences
 import androidx.datastore.core.DataStore
 import com.example.royaal.UserSettings
 import com.example.royaal.api.ExploreRepositoryProvider
 import com.example.royaal.api.GameDetailsRepositoryProvider
 import com.example.royaal.api.GamesRepositoryProvider
 import com.example.royaal.api.LocalGamesRepositoryProvider
+import com.example.royaal.common_android.NetworkMonitorProvider
 import com.example.royaal.commonui.Destinations
 import com.example.royaal.core.database.di.DatabaseModule
 import com.example.royaal.core.database.di.DatabaseProvider
-import com.example.royaal.core.network.di.NetworkModule
 import com.example.royaal.core.network.di.NetworkProvider
+import com.example.royaal.core.network.di.RawgNetworkModule
+import com.example.royaal.core.network.twitchgamedatabse.di.TwitchModule
 import com.example.royaal.data.DataModule
 import com.example.royaal.data.DataProvider
 import com.example.royaal.data.di.ExploreRepositoryModule
@@ -26,20 +29,23 @@ import javax.inject.Singleton
 
 @[Singleton Component(
     modules = [
+        SystemModule::class,
         DatabaseModule::class,
-        NetworkModule::class,
+        RawgNetworkModule::class,
         DataModule::class,
         GamesRepoModule::class,
         GameDetailsRepositoryModule::class,
         LocalGamesRepositoryModule::class,
         ExploreRepositoryModule::class,
-        NavigationModule::class
+        NavigationModule::class,
+        TwitchModule::class
     ]
 )]
 interface ApplicationComponent :
     DataProvider,
     DatabaseProvider,
     NetworkProvider,
+    NetworkMonitorProvider,
     GameDetailsRepositoryProvider,
     GamesRepositoryProvider,
     LocalGamesRepositoryProvider,
@@ -50,7 +56,9 @@ interface ApplicationComponent :
             @BindsInstance
             application: Application,
             @BindsInstance
-            dataStore: DataStore<UserSettings>
+            dataStore: DataStore<UserSettings>,
+            @BindsInstance
+            tokensSharedPrefs: SharedPreferences
         ): ApplicationComponent
     }
 

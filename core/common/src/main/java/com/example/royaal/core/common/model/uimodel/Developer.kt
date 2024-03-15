@@ -1,7 +1,8 @@
 package com.example.royaal.core.common.model.uimodel
 
-data class Platform(
+data class Developer(
     val id: Int,
     val name: String,
-    val backgroundImg: String = ""
+    val gamesCount: Int,
+    val img: String
 ) : UiModel

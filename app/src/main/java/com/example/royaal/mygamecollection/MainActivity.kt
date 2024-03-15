@@ -28,6 +28,7 @@ import com.example.royaal.api.LocalExploreRepositoryProvider
 import com.example.royaal.api.LocalGameDetailsProvider
 import com.example.royaal.api.LocalGamesRepositoryProvider
 import com.example.royaal.api.LocalLocalGamesRepositoryProvider
+import com.example.royaal.common_android.LocalNetworkMonitorProvider
 import com.example.royaal.core.common.model.DarkThemeConfiguration
 import com.example.royaal.core.common.model.ThemeBrandConf
 import com.example.royaal.core.database.di.LocalDatabaseProvider
@@ -106,7 +107,8 @@ class MainActivity : ComponentActivity() {
                     LocalGameDetailsProvider provides appComponent,
                     LocalDataProvider provides appComponent,
                     LocalLocalGamesRepositoryProvider provides appComponent,
-                    LocalExploreRepositoryProvider provides appComponent
+                    LocalExploreRepositoryProvider provides appComponent,
+                    LocalNetworkMonitorProvider provides appComponent
                 ) {
                     MainNavHost(
                         navController = navController,

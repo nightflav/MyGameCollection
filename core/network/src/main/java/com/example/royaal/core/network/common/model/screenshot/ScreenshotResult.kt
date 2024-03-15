@@ -1,4 +1,4 @@
-package com.example.royaal.core.network.model.screenshot
+package com.example.royaal.core.network.common.model.screenshot
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

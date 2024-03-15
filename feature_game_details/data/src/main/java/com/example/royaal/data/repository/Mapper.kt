@@ -4,8 +4,8 @@ import com.example.royaal.core.common.model.uimodel.DetailsGameModel
 import com.example.royaal.core.common.model.uimodel.Platform
 import com.example.royaal.core.common.model.uimodel.PreviewGameModel
 import com.example.royaal.core.common.model.uimodel.Screenshot
-import com.example.royaal.core.network.model.GameResult
-import com.example.royaal.core.network.model.gamedetails.GameDetailsResponse
+import com.example.royaal.core.network.common.model.GameResult
+import com.example.royaal.core.network.common.model.gamedetails.GameDetailsResponse
 
 fun GameDetailsResponse.toDetailedGameModel(screenshots: List<Screenshot>) = DetailsGameModel(
     id = id,

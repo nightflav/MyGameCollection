@@ -1,10 +1,10 @@
-package com.example.royaal.core.network.model.platforms
+package com.example.royaal.core.network.common.model.genres
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PlatformsNetworkResponse(
+data class GenresNetworkResponse(
     @SerialName("count")
     val count: Int,
     @SerialName("next")
@@ -12,5 +12,5 @@ data class PlatformsNetworkResponse(
     @SerialName("previous")
     val previous: String,
     @SerialName("results")
-    val results: List<PlatformsResult>
+    val results: List<GenresResult>
 )

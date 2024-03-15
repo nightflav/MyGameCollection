@@ -48,6 +48,9 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+        resources {
+            pickFirsts += "protobuf.meta"
+        }
     }
 }
 
@@ -72,11 +75,13 @@ dependencies {
     implementation(libs.retrofit.kotlin.serialization)
     //Modules
     implementation(project(":core:common"))
+    implementation(project(":core:common_android"))
     implementation(project(":core:commonui"))
     implementation(project(":core:network"))
     implementation(project(":core:database"))
     implementation(project(":core:datastore"))
     implementation(project(":core:data"))
+    implementation(project(":core:sharedprefs"))
     implementation(project(":feature_home:domain"))
     implementation(project(":feature_home:api"))
     implementation(project(":feature_home:data"))

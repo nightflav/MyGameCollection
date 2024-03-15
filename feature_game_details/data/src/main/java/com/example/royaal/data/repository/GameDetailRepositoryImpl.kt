@@ -7,7 +7,7 @@ import com.example.royaal.core.common.model.uimodel.Screenshot
 import com.example.royaal.core.database.app.GamesDao
 import com.example.royaal.core.database.app.detailedGameModel
 import com.example.royaal.core.database.app.toGameEntity
-import com.example.royaal.core.network.GamesApi
+import com.example.royaal.core.network.common.GamesApi
 import com.example.royaal.domain.GameDetailsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll

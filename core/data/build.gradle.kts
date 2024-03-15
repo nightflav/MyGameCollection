@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.royaal.data"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 26
@@ -41,7 +41,6 @@ android {
 
 dependencies {
     //Modules
-    implementation(project(":core:common"))
     api(project(":core:datastore"))
     //Coroutines
     implementation(libs.coroutines)

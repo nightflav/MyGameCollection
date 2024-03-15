@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.royaal.datastore"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 26
@@ -58,7 +58,7 @@ dependencies {
     ksp(libs.dagger.compiler)
     //DataStore
     implementation(libs.androidx.dataStore.core)
-    implementation(libs.protobuf.kotlin.lite)
+    implementation(libs.protobuf.kotlin)
     //Modules
-    implementation(project(":core:common"))
+    api(project(":core:common"))
 }

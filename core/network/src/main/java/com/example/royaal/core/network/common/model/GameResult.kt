@@ -1,13 +1,13 @@
-package com.example.royaal.core.network.model
+package com.example.royaal.core.network.common.model
 
-import com.example.royaal.core.network.model.game.Platform
+import com.example.royaal.core.network.common.model.game.Platform
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class GameResult(
     @SerialName("added")
-    val added: Int,
+    val added: Int?,
     @SerialName("background_image")
     val backgroundImage: String?,
     @SerialName("id")
@@ -19,19 +19,19 @@ data class GameResult(
     @SerialName("platforms")
     val platforms: List<Platform> = emptyList(),
     @SerialName("playtime")
-    val playtime: Int,
+    val playtime: Int?,
     @SerialName("rating")
-    val rating: Float,
+    val rating: Float?,
     @SerialName("rating_top")
-    val ratingTop: Int,
+    val ratingTop: Int?,
     @SerialName("released")
-    val released: String,
+    val released: String?,
     @SerialName("slug")
     val slug: String,
     @SerialName("suggestions_count")
-    val suggestionsCount: Int,
+    val suggestionsCount: Int?,
     @SerialName("tba")
-    val tba: Boolean,
+    val tba: Boolean?,
     @SerialName("updated")
-    val updated: String
+    val updated: String?
 )

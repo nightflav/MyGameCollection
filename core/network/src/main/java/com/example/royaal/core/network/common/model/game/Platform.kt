@@ -1,5 +1,4 @@
-package com.example.royaal.core.network.model.gamedetails
-
+package com.example.royaal.core.network.common.model.game
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -9,5 +8,7 @@ data class Platform(
     @SerialName("platform")
     val platform: PlatformX,
     @SerialName("released_at")
-    val releasedAt: String,
+    val releasedAt: String = "unknown",
+    @SerialName("requirements")
+    val requirements: Requirements? = null
 )

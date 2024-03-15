@@ -130,7 +130,7 @@ fun MultipleSelector(
     Layout(
         modifier = modifier
             .clip(
-                shape = RoundedCornerShape(percent = CardConst.halfCornerRadiusPercent)
+                shape = RoundedCornerShape(percent = CardConst.HALF_CORNER_RADIUS_PERCENT)
             )
             .background(containerColor),
         content = {

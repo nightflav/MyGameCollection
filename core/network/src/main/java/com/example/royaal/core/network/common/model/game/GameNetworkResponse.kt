@@ -1,6 +1,6 @@
-package com.example.royaal.core.network.model.game
+package com.example.royaal.core.network.common.model.game
 
-import com.example.royaal.core.network.model.GameResult
+import com.example.royaal.core.network.common.model.GameResult
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

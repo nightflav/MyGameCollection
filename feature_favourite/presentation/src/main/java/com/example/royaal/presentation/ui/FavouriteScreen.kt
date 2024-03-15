@@ -4,9 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -36,7 +39,7 @@ internal fun FavouriteScreen(
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(DimConst.defaultPadding),
-        modifier = modifier
+        modifier = modifier.windowInsetsPadding(WindowInsets.safeDrawing)
     ) {
         Text(
             text = state.selectedCategory.toString(),
@@ -60,7 +63,7 @@ internal fun FavouriteScreen(
                 verticalArrangement = Arrangement.spacedBy(DimConst.defaultPadding),
                 contentPadding = PaddingValues(
                     horizontal = DimConst.smallPadding,
-                    vertical = 20.dp
+                    vertical = DimConst.mediumPadding
                 ),
                 horizontalArrangement = Arrangement.spacedBy(DimConst.smallPadding),
             ) {

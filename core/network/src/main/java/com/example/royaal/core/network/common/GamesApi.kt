@@ -1,12 +1,12 @@
-package com.example.royaal.core.network
+package com.example.royaal.core.network.common
 
-import com.example.royaal.core.network.model.developers.DevelopersResponse
-import com.example.royaal.core.network.model.game.GameNetworkResponse
-import com.example.royaal.core.network.model.gamedetails.GameDetailsResponse
-import com.example.royaal.core.network.model.gameseries.GameSeriesNetworkResponse
-import com.example.royaal.core.network.model.genres.GenresNetworkResponse
-import com.example.royaal.core.network.model.platforms.PlatformsNetworkResponse
-import com.example.royaal.core.network.model.screenshot.ScreenshotNetworkResponse
+import com.example.royaal.core.network.common.model.developers.DevelopersResponse
+import com.example.royaal.core.network.common.model.game.GameNetworkResponse
+import com.example.royaal.core.network.common.model.gamedetails.GameDetailsResponse
+import com.example.royaal.core.network.common.model.gameseries.GameSeriesNetworkResponse
+import com.example.royaal.core.network.common.model.genres.GenresNetworkResponse
+import com.example.royaal.core.network.common.model.platforms.PlatformsNetworkResponse
+import com.example.royaal.core.network.common.model.screenshot.ScreenshotNetworkResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

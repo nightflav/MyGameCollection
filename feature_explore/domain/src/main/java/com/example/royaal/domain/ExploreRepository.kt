@@ -1,6 +1,6 @@
 package com.example.royaal.domain
 
-import com.example.royaal.core.common.model.Developer
+import com.example.royaal.core.common.model.uimodel.Developer
 import com.example.royaal.core.common.model.uimodel.Genre
 import com.example.royaal.core.common.model.uimodel.Platform
 import com.example.royaal.core.common.model.uimodel.PreviewGameModel
@@ -12,7 +12,7 @@ interface ExploreRepository {
 
     fun getLatestReleases(): Flow<List<PreviewGameModel>>
 
-    fun getByPlatform(platform: Platform, page: Int = 1): Flow<List<PreviewGameModel>>
+    fun getByPlatform(platform: Int, page: Int = 1): Flow<List<PreviewGameModel>>
 
     fun searchForGames(query: String): Flow<List<PreviewGameModel>>
 

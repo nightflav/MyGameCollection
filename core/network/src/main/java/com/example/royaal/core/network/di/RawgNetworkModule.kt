@@ -1,19 +1,21 @@
 package com.example.royaal.core.network.di
 
+import com.example.royaal.core.network.ApiQualifier
 import com.example.royaal.core.network.BuildConfig
-import com.example.royaal.core.network.GamesApi
+import com.example.royaal.core.network.common.GamesApi
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
-class NetworkModule {
+class RawgNetworkModule {
 
     @Provides
     fun provideBaseUrl(): String = BuildConfig.API_URL
@@ -31,6 +33,10 @@ class NetworkModule {
                 .build()
             chain.proceed(request)
         }
+        .addInterceptor(
+            HttpLoggingInterceptor()
+            .setLevel(HttpLoggingInterceptor.Level.BODY)
+        )
         .build()
 
     @Provides
@@ -43,6 +49,7 @@ class NetworkModule {
         return json.asConverterFactory(contentType)
     }
 
+    @ApiQualifier
     @Singleton
     @Provides
     fun provideRetrofit(
@@ -57,6 +64,7 @@ class NetworkModule {
 
     @Provides
     fun provideRawgApi(
+        @ApiQualifier
         retrofit: Retrofit
     ): GamesApi = retrofit.create(GamesApi::class.java)
 }

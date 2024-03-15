@@ -2,6 +2,7 @@ package com.example.royaal.mygamecollection
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.datastore.dataStore
 import com.example.royaal.datastore.UserSettingsSerializer
 import com.example.royaal.mygamecollection.di.ApplicationComponent
@@ -14,10 +15,14 @@ class BaseApp : Application() {
         serializer = UserSettingsSerializer
     )
 
+    private val Context.tokensSharedPrefs: SharedPreferences
+        get() = getSharedPreferences("TokensSharedPrefs", Context.MODE_PRIVATE)
+
     val appComponent: ApplicationComponent by lazy {
         DaggerApplicationComponent.factory().create(
             this,
-            myDataStore
+            myDataStore,
+            tokensSharedPrefs
         )
     }
 }

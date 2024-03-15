@@ -1,16 +1,16 @@
-package com.example.royaal.core.network.model.genres
+package com.example.royaal.core.network.common.model.screenshot
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GenresNetworkResponse(
+data class ScreenshotNetworkResponse(
     @SerialName("count")
     val count: Int,
     @SerialName("next")
-    val next: String,
+    val next: String? = null,
     @SerialName("previous")
-    val previous: String,
+    val previous: String? = null,
     @SerialName("results")
-    val results: List<GenresResult>
+    val results: List<ScreenshotResult> = emptyList()
 )
