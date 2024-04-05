@@ -59,7 +59,7 @@ fun MainNavHost(
                 destinations = navDestinations
             )
         }
-    ) { it ->
+    ) {
         Box(modifier = Modifier.padding()) {
             NavHost(
                 navController = navController,

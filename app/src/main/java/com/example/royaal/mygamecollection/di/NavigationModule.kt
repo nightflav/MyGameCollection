@@ -1,9 +1,11 @@
 package com.example.royaal.mygamecollection.di
 
+import com.example.royaal.api.DeveloperDetailsEntry
 import com.example.royaal.api.ExploreFeatureEntry
 import com.example.royaal.api.FavouriteFeatureEntry
 import com.example.royaal.api.GameDetailsEntry
 import com.example.royaal.api.HomeEntry
+import com.example.royaal.api.PlatformDetailsEntry
 import com.example.royaal.commonui.FeatureEntry
 import com.example.royaal.presentation.ExploreFeatureEntryImpl
 import com.example.royaal.presentation.FavouriteFeatureEntryImpl
@@ -40,5 +42,17 @@ interface NavigationModule {
     @RouteKey(ExploreFeatureEntry::class)
     @IntoMap
     fun bindExploreRoute(exploreFeatureEntryImpl: ExploreFeatureEntryImpl): FeatureEntry
+
+    @Singleton
+    @Binds
+    @RouteKey(DeveloperDetailsEntry::class)
+    @IntoMap
+    fun bindDeveloperDetailsRoute(developerDetailsEntryImpl: DeveloperDetailsEntry): FeatureEntry
+
+    @Singleton
+    @Binds
+    @RouteKey(PlatformDetailsEntry::class)
+    @IntoMap
+    fun bindPlatformDetailsRoute(developerDetailsEntryImpl: PlatformDetailsEntry): FeatureEntry
 
 }

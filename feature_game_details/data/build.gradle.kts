@@ -18,12 +18,6 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
-    }
 }
 
 dependencies {
@@ -35,7 +29,4 @@ dependencies {
     //DI
     implementation(libs.dagger.kt)
     ksp(libs.dagger.compiler)
-    //Compose
-    implementation(libs.androidx.compose.bom)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.runtime)}
+}

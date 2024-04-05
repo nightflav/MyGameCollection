@@ -39,7 +39,17 @@
             <option value="$PROJECT_DIR$/feature_home/data" />
             <option value="$PROJECT_DIR$/feature_home/domain" />
             <option value="$PROJECT_DIR$/feature_home/presentation" />
+            <option value="$PROJECT_DIR$/feature_platform_details" />
+            <option value="$PROJECT_DIR$/feature_platform_details/api" />
+            <option value="$PROJECT_DIR$/feature_platform_details/data" />
+            <option value="$PROJECT_DIR$/feature_platform_details/domain" />
+            <option value="$PROJECT_DIR$/feature_platform_details/presentation" />
             <option value="$PROJECT_DIR$/feature_settings" />
+            <option value="$PROJECT_DIR$/feautre_developers_details" />
+            <option value="$PROJECT_DIR$/feautre_developers_details/api" />
+            <option value="$PROJECT_DIR$/feautre_developers_details/data" />
+            <option value="$PROJECT_DIR$/feautre_developers_details/domain" />
+            <option value="$PROJECT_DIR$/feautre_developers_details/presentation" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

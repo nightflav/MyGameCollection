@@ -11,14 +11,12 @@ sealed interface StateResult<out T> {
     data object Loading : StateResult<Nothing>
 }
 
-fun <T> Flow<T>.asResult(): Flow<StateResult<T>> {
-    return this
-        .map<T, StateResult<T>> {
+fun <T> Flow<T>.asResult(): Flow<StateResult<T>> =
+    map<T, StateResult<T>> {
             StateResult.Success(it)
         }
         .onStart { emit(StateResult.Loading) }
         .catch { emit(StateResult.Error(it)) }
-}
 
 suspend fun <T> StateResult<T>.fetchResult(
     onLoading: suspend () -> Unit,

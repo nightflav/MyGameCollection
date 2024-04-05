@@ -22,7 +22,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
     }
 }
 
@@ -40,6 +40,6 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     //Compose
     implementation(libs.androidx.compose.bom)
-    implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.compose.material3)
 }

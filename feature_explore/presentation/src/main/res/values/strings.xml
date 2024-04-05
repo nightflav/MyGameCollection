@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search">Search</string>
+    <string name="close">Close</string>
+    <string name="history">History</string>
+    <string name="no_result">No Result</string>
+    <string name="retry">Retry</string>
+    <string name="cancel">Cancel</string>
+    <string name="show_more_games">Show more games…</string>
+    <string name="platforms_title">Platforms</string>
+    <string name="developers_title">Developers</string>
+    <string name="upcoming_title">Upcoming Games</string>
+    <string name="latest_title">Latest Releases</string>
+</resources>

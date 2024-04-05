@@ -42,7 +42,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
     }
     packaging {
         resources {
@@ -70,6 +70,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     //DI
     implementation(libs.dagger.kt)
+    implementation(project(":feautre_developers_details:api"))
+    implementation(project(":feature_platform_details:api"))
     ksp(libs.dagger.compiler)
     //Serialization
     implementation(libs.retrofit.kotlin.serialization)

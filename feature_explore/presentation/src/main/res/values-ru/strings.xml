@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search">Поиск</string>
+    <string name="close">Закрыть</string>
+    <string name="history">История поиска</string>
+    <string name="no_result">Нет результатов</string>
+    <string name="retry">Попробовать еще раз</string>
+    <string name="cancel">Отмена</string>
+    <string name="show_more_games">Показать другие игры…</string>
+    <string name="platforms_title">Платформы</string>
+    <string name="developers_title">Разработчики</string>
+    <string name="upcoming_title">Скоро выйдет</string>
+    <string name="latest_title">Популярное</string>
+</resources>
