@@ -19,6 +19,10 @@
             <option value="$PROJECT_DIR$/core/datastore" />
             <option value="$PROJECT_DIR$/core/network" />
             <option value="$PROJECT_DIR$/core/sharedprefs" />
+            <option value="$PROJECT_DIR$/feature_assistant" />
+            <option value="$PROJECT_DIR$/feature_assistant/api" />
+            <option value="$PROJECT_DIR$/feature_assistant/domain" />
+            <option value="$PROJECT_DIR$/feature_assistant/presentation" />
             <option value="$PROJECT_DIR$/feature_explore" />
             <option value="$PROJECT_DIR$/feature_explore/api" />
             <option value="$PROJECT_DIR$/feature_explore/data" />

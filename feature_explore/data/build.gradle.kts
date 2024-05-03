@@ -35,11 +35,13 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
     }
 }
 
 dependencies {
+    //Compose
+    implementation(libs.androidx.lifecycle.runtimeCompose)
     //Modules
     implementation(project(":feature_explore:domain"))
     implementation(project(":core:common"))

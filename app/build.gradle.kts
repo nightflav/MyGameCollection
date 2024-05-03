@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.dagger.kt)
     implementation(project(":feautre_developers_details:api"))
     implementation(project(":feature_platform_details:api"))
+    implementation(project(":feature_assistant:api"))
     ksp(libs.dagger.compiler)
     //Serialization
     implementation(libs.retrofit.kotlin.serialization)

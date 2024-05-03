@@ -1,5 +1,6 @@
 package com.example.royaal.mygamecollection.di
 
+import com.example.royaal.api.AiAssistantEntry
 import com.example.royaal.api.DeveloperDetailsEntry
 import com.example.royaal.api.ExploreFeatureEntry
 import com.example.royaal.api.FavouriteFeatureEntry
@@ -54,5 +55,12 @@ interface NavigationModule {
     @RouteKey(PlatformDetailsEntry::class)
     @IntoMap
     fun bindPlatformDetailsRoute(developerDetailsEntryImpl: PlatformDetailsEntry): FeatureEntry
+
+    @Singleton
+    @Binds
+    @RouteKey(AiAssistantEntry::class)
+    @IntoMap
+    fun bindAiAssistantRoute(aiAssistantEntryImpl: AiAssistantEntry): FeatureEntry
+
 
 }

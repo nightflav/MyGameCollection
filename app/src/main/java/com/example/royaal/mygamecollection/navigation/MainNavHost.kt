@@ -30,7 +30,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.royaal.api.ExploreFeatureEntry
 import com.example.royaal.api.FavouriteFeatureEntry
-import com.example.royaal.api.GameDetailsEntry
 import com.example.royaal.api.HomeEntry
 import com.example.royaal.commonui.Destinations
 import com.example.royaal.commonui.DimConst
@@ -71,32 +70,14 @@ fun MainNavHost(
                     fadeIn(tween(700))
                 },
             ) {
-                with(destinations.find<HomeEntry>()) {
-                    screen(
-                        modifier = Modifier.padding(bottom = it.calculateBottomPadding()),
-                        navController = navController,
-                        destinations = destinations
-                    )
-                }
-                with(destinations.find<GameDetailsEntry>()) {
-                    screen(
-                        navController = navController,
-                        destinations = destinations
-                    )
-                }
-                with(destinations.find<FavouriteFeatureEntry>()) {
-                    screen(
-                        modifier = Modifier.padding(bottom = it.calculateBottomPadding()),
-                        navController = navController,
-                        destinations = destinations
-                    )
-                }
-                with(destinations.find<ExploreFeatureEntry>()) {
-                    screen(
-                        modifier = Modifier.padding(bottom = it.calculateBottomPadding()),
-                        navController = navController,
-                        destinations = destinations
-                    )
+                destinations.values.forEach { entry ->
+                    with(entry) {
+                        screen(
+                            modifier = Modifier.padding(bottom = it.calculateBottomPadding()),
+                            navController = navController,
+                            destinations = destinations
+                        )
+                    }
                 }
             }
             Settings(

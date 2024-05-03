@@ -23,12 +23,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.SmartToy
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -45,6 +50,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastAny
 import coil.compose.AsyncImage
@@ -71,62 +77,96 @@ fun ExploreScreen(
     onSelectPlatform: (Int) -> Unit,
     onSelectDeveloper: (Int) -> Unit,
     onSearchForGames: () -> Unit,
-    onQueryChange: (String) -> Unit
+    onQueryChange: (String) -> Unit,
+    onGoToAssistant: () -> Unit
 ) {
-    Column(
-        modifier = modifier, horizontalAlignment = CenterHorizontally
-    ) {
-        var isSearchBarActive by remember { mutableStateOf(false) }
-        val keyboardState = keyboardAsState()
-
-        SearchGames(
-            searchState = state.searchState,
-            onQueryChange = { onQueryChange(it) },
-            onActiveChange = { isSearchBarActive = it },
-            active = isSearchBarActive && keyboardState.value,
-            onSearch = {
-                onSearchForGames()
-                isSearchBarActive = false
-            },
-            onCloseSearchBar = {
-                isSearchBarActive = false
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                elevation = FloatingActionButtonDefaults.elevation(2.dp),
+                onClick = onGoToAssistant,
+                shape = RoundedCornerShape(100)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.SmartToy,
+                    contentDescription = null
+                )
             }
-        )
-        if (state.searchState.searchQuery.isNotEmpty()) {
-            SearchStatefulResults(
-                state = state.searchState,
-                onGameClick = onGameClick,
-                onDeveloperClick = onDeveloperClick,
-                onPlatformClick = onPlatformClick,
-                onSearchForGames = onSearchForGames,
-                onQueryChange = onQueryChange
+        },
+        floatingActionButtonPosition = FabPosition.End
+    ) { it ->
+        Column(
+            modifier = modifier.padding(it),
+            horizontalAlignment = CenterHorizontally
+        ) {
+            var isSearchBarActive by remember { mutableStateOf(false) }
+            val keyboardState = keyboardAsState()
+            GamesSearchField(
+                searchState = state.searchState,
+                onQueryChange = { onQueryChange(it) },
+                onActiveChange = { isSearchBarActive = it },
+                active = isSearchBarActive && keyboardState.value,
+                onSearch = {
+                    onSearchForGames()
+                    isSearchBarActive = false
+                },
+                onCloseSearchBar = {
+                    isSearchBarActive = false
+                }
             )
-        } else {
-            Text(text = stringResource(id = R.string.upcoming_title))
-            if (!state.upcomingGamesState.areUpcomingLoading) {
-                GamesRow(
-                    games = { state.upcomingGamesState.upcoming },
+            if (state.searchState.searchQuery.isNotEmpty()) {
+                SearchStatefulResults(
+                    state = state.searchState,
                     onGameClick = onGameClick,
+                    onDeveloperClick = onDeveloperClick,
+                    onPlatformClick = onPlatformClick,
+                    onSearchForGames = onSearchForGames,
+                    onQueryChange = onQueryChange
                 )
-            } else ShimmerRow(
-                height = 160.dp, width = 320.dp, spaceBetween = DimConst.smallPadding
-            )
-            Text(text = stringResource(id = R.string.latest_title))
-            if (!state.latestGamesState.areLatestLoading) {
-                GamesRow(
-                    games = { state.latestGamesState.latest },
+            } else {
+                SearchedList(
+                    title = stringResource(id = R.string.upcoming_title),
+                    isLoading = state.upcomingGamesState.areUpcomingLoading,
+                    onItemClick = onGameClick,
+                    items = { state.upcomingGamesState.upcoming }
+                )
+                SearchedList(
+                    title = stringResource(id = R.string.latest_title),
+                    isLoading = state.latestGamesState.areLatestLoading,
+                    onItemClick = onGameClick,
+                    items = { state.latestGamesState.latest })
+                ExploreByPlatform(
+                    exploreGamesState = state.exploreGamesState,
                     onGameClick = onGameClick,
+                    onSelectPlatform = onSelectPlatform
                 )
-            } else ShimmerRow(
-                height = 160.dp, width = 320.dp, spaceBetween = DimConst.smallPadding
-            )
-            ExploreByPlatform(
-                exploreGamesState = state.exploreGamesState,
-                onGameClick = onGameClick,
-                onSelectPlatform = onSelectPlatform
-            )
+            }
         }
     }
+}
+
+@Composable
+private fun SearchedList(
+    title: String,
+    isLoading: Boolean,
+    onItemClick: (Int) -> Unit,
+    items: () -> List<PreviewGameModel>
+) {
+    Text(
+        modifier = Modifier.padding(vertical = DimConst.smallPadding),
+        text = title
+    )
+    if (!isLoading) {
+        GamesRow(
+            games = items,
+            onGameClick = onItemClick,
+        )
+    } else
+        ShimmerRow(
+            height = 160.dp,
+            width = 320.dp,
+            spaceBetween = DimConst.smallPadding
+        )
 }
 
 @Composable
@@ -216,7 +256,7 @@ private fun ExploreByPlatform(
         ) {
             items(count = exploreGamesState.platforms.size) { index ->
                 val it = exploreGamesState.platforms[index]
-                Platform(
+                PlatformCard(
                     isSelected = it.name == exploreGamesState.selectedPlatform, platform = it
                 ) { newPlatform ->
                     onSelectPlatform(newPlatform)
@@ -227,12 +267,10 @@ private fun ExploreByPlatform(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Platform(
+private fun PlatformCard(
     isSelected: Boolean, platform: Platform, onSelectPlatform: (Int) -> Unit
-) {
-    Card(
+) = Card(
         shape = RoundedCornerShape(50),
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.secondaryContainer,
@@ -249,7 +287,6 @@ private fun Platform(
                 .align(CenterHorizontally)
         )
     }
-}
 
 @Composable
 private inline fun GamesRow(
@@ -270,13 +307,11 @@ private inline fun GamesRow(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun GameCard(
     game: PreviewGameModel,
     onGameClick: (Int) -> Unit,
-) {
-    Card(
+) = Card(
         onClick = { onGameClick(game.id) }, shape = RoundedCornerShape(24.dp), modifier = Modifier
     ) {
         AsyncImage(
@@ -288,11 +323,10 @@ private fun GameCard(
                 .height(160.dp)
         )
     }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SearchGames(
+private fun GamesSearchField(
     searchState: SearchState,
     onQueryChange: (String) -> Unit,
     onSearch: (String) -> Unit,
@@ -300,7 +334,8 @@ private fun SearchGames(
     onActiveChange: (Boolean) -> Unit,
     onCloseSearchBar: () -> Unit
 ) {
-    SearchBar(modifier = Modifier.fillMaxWidth(),
+    SearchBar(
+        modifier = Modifier.padding(horizontal = 4.dp),
         query = searchState.searchQuery,
         onQueryChange = onQueryChange,
         onSearch = onSearch,
@@ -329,7 +364,8 @@ private fun SearchGames(
                     contentDescription = stringResource(id = R.string.close),
                     modifier = Modifier.clickable {
                         onQueryChange("")
-                    })
+                    }
+                )
             }
         }) {
         searchState.previousQueries.forEach { request ->
@@ -350,8 +386,8 @@ private fun SearchGames(
                     text = request, style = MaterialTheme.typography.bodySmall
                 )
             }
+            }
         }
-    }
 }
 
 @Composable
@@ -399,4 +435,21 @@ private fun FailedSearchRequest(
 fun keyboardAsState(): State<Boolean> {
     val isImeVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
     return rememberUpdatedState(isImeVisible)
+}
+
+@Composable
+@Preview(heightDp = 800, widthDp = 360)
+private fun ExplorePreview() {
+    MaterialTheme {
+        ExploreScreen(state = ExploreScreenState(),
+            onGameClick = {},
+            onDeveloperClick = {},
+            onPlatformClick = {},
+            onSelectPlatform = {},
+            onSelectDeveloper = {},
+            onSearchForGames = {},
+            onQueryChange = {},
+            onGoToAssistant = {}
+        )
+    }
 }

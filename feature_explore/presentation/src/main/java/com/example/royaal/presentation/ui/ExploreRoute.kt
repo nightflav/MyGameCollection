@@ -14,7 +14,8 @@ internal fun ExploreRoute(
     viewModel: ExploreViewModel,
     onGameClick: (Int) -> Unit,
     onDeveloperClick: (Int) -> Unit,
-    onPlatformClick: (Int) -> Unit
+    onPlatformClick: (Int) -> Unit,
+    onGoToAssistant: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     when {
@@ -26,6 +27,7 @@ internal fun ExploreRoute(
             onGameClick = onGameClick,
             onDeveloperClick = onDeveloperClick,
             onPlatformClick = onPlatformClick,
+            onGoToAssistant = onGoToAssistant,
             onSelectPlatform = { newPlatform ->
                 viewModel.sendEvent(ExploreViewModel.ExploreScreenEvent.SelectPlatform(newPlatform))
             },
@@ -37,7 +39,7 @@ internal fun ExploreRoute(
             },
             onQueryChange = { query ->
                 viewModel.sendEvent(ExploreViewModel.ExploreScreenEvent.QueryChange(query))
-            }
+            },
         )
     }
 }

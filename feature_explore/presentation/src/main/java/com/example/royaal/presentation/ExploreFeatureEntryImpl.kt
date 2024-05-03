@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
+import com.example.royaal.api.AiAssistantEntry
 import com.example.royaal.api.DeveloperDetailsEntry
 import com.example.royaal.api.ExploreFeatureEntry
 import com.example.royaal.api.GameDetailsEntry
@@ -65,6 +66,12 @@ class ExploreFeatureEntryImpl @Inject constructor() : ExploreFeatureEntry() {
                 val destination = destinations
                     .find<PlatformDetailsEntry>()
                     .destination(it)
+                navController.navigate(destination)
+            },
+            onGoToAssistant = {
+                val destination = destinations
+                    .find<AiAssistantEntry>()
+                    .destination()
                 navController.navigate(destination)
             }
         )

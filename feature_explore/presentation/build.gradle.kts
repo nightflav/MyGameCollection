@@ -35,7 +35,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
     }
 }
 
@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.dagger.kt)
     implementation(project(":feature_platform_details:api"))
     implementation(project(":feautre_developers_details:api"))
+    implementation(project(":feature_assistant:api"))
     ksp(libs.dagger.compiler)
     //Android + Material + Compose
     implementation(libs.androidx.lifecycle.runtimeCompose)

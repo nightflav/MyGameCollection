@@ -22,7 +22,9 @@ fun ShimmerRow(
     shape: Shape = RoundedCornerShape(24.dp),
     height: Dp = 200.dp,
     width: Dp = 200.dp,
-    contentPadding: PaddingValues = PaddingValues(),
+    contentPadding: PaddingValues = PaddingValues(
+        start = 8.dp
+    ),
     spaceBetween: Dp = 0.dp
 ) {
     LazyRow(
@@ -30,7 +32,7 @@ fun ShimmerRow(
         contentPadding = contentPadding,
         horizontalArrangement = Arrangement.spacedBy(spaceBetween)
     ) {
-        (1..3).forEach { _ ->
+        (1..5).forEach { _ ->
             item {
                 Box(
                     modifier = Modifier
