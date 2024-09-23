@@ -38,3 +38,6 @@ https://youtu.be/IoXXhshZyIk?si=Kd3XHqB1eK3fDC6K
 - Make all feature entries injectable in destinations map - DONE
 - Implement some more custom composables so that it will looks exactly like I want it to look - Partially done
 - ...
+
+
+ABANDONED
